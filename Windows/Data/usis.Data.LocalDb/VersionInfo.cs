@@ -1,4 +1,13 @@
-﻿using System;
+﻿//
+//  @(#) VersionInfo.cs
+//
+//  Project:    usis.Data.LocalDb
+//  System:     Microsoft Visual Studio 2017
+//  Author:     Udo Schäfer
+//
+//  Copyright (c) 2018 usis GmbH. All rights reserved.
+
+using System;
 using System.Text;
 
 namespace usis.Data.LocalDb
@@ -17,7 +26,7 @@ namespace usis.Data.LocalDb
 
         internal VersionInfo(LocalDBVersionInfo info)
         {
-            Name = Encoding.Unicode.GetString(info.Version).TrimEnd('\0');
+            Name = info.Version.ToString(Encoding.Unicode);
             Exists = info.Exists;
             Version = new Version((int)info.Major, (int)info.Minor, (int)info.Build, (int)info.Revision);
         }
@@ -33,3 +42,5 @@ namespace usis.Data.LocalDb
         public override string ToString() => Name;
     }
 }
+
+// eof "VersionInfo.cs"

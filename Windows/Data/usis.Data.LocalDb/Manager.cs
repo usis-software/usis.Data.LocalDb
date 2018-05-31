@@ -9,10 +9,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 using System.Text;
 
 namespace usis.Data.LocalDb
@@ -36,13 +36,22 @@ namespace usis.Data.LocalDb
         private LocalDBGetVersions localDBGetVersions;
         private LocalDBGetVersionInfo localDBGetVersionInfo;
         private LocalDBGetInstances localDBGetInstances;
+        private LocalDBGetInstanceInfo localDBGetInstanceInfo;
+        private LocalDBCreateInstance localDBCreateInstance;
+        private LocalDBDeleteInstance localDBDeleteInstance;
+        private LocalDBStartInstance localDBStartInstance;
+        private LocalDBStopInstance localDBStopInstance;
+        private LocalDBShareInstance localDBShareInstance;
+        private LocalDBUnshareInstance localDBUnshareInstance;
+        private LocalDBStartTracing localDBStartTracing;
+        private LocalDBStopTracing localDBStopTracing;
 
         #endregion fields
 
         #region delegates
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        internal delegate uint LocalDBFormatMessage(uint hr, int flags, int languageId, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder wszMessage, ref int size);
+        internal delegate uint LocalDBFormatMessage(uint hr, int flags, int languageId, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder message, ref int size);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         internal delegate uint LocalDBGetVersions(IntPtr versionNames, ref int numberOfVersions);
@@ -52,6 +61,33 @@ namespace usis.Data.LocalDb
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         internal delegate uint LocalDBGetInstances(IntPtr instanceNames, ref int numberOfInstances);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        internal delegate uint LocalDBGetInstanceInfo([MarshalAs(UnmanagedType.LPWStr)] string instanceName, [MarshalAs(UnmanagedType.Struct)] out LocalDBInstanceInfo instanceInfo, int instanceInfoSize);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        internal delegate uint LocalDBCreateInstance([MarshalAs(UnmanagedType.LPWStr)] string version, [MarshalAs(UnmanagedType.LPWStr)] string instanceName, uint flags);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        internal delegate uint LocalDBDeleteInstance([MarshalAs(UnmanagedType.LPWStr)] string instanceName, uint flags);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        internal delegate uint LocalDBStartInstance([MarshalAs(UnmanagedType.LPWStr)] string instanceName, uint flags, [MarshalAs(UnmanagedType.LPWStr)][Out] StringBuilder sqlConnection, ref int sqlConnectionSize);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        internal delegate uint LocalDBStopInstance([MarshalAs(UnmanagedType.LPWStr)] string instanceName, uint flags, uint timeout);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        internal delegate uint LocalDBShareInstance(IntPtr ownerSID, [MarshalAs(UnmanagedType.LPWStr)] string instancePrivateName, [MarshalAs(UnmanagedType.LPWStr)] string instanceSharedName, uint flags);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        internal delegate uint LocalDBUnshareInstance([MarshalAs(UnmanagedType.LPWStr)] string instanceSharedName, uint flags);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        internal delegate uint LocalDBStartTracing();
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        internal delegate uint LocalDBStopTracing();
 
         #endregion delegates
 
@@ -126,8 +162,7 @@ namespace usis.Data.LocalDb
         {
             var function = library.GetFunction(nameof(LocalDBGetVersionInfo), ref localDBGetVersionInfo);
             var info = new LocalDBVersionInfo();
-            var size = Marshal.SizeOf<LocalDBVersionInfo>();
-            ValidateHResult(function(version, out info, size));
+            ValidateHResult(function(version, out info, Marshal.SizeOf<LocalDBVersionInfo>()));
             return new VersionInfo(info);
         }
 
@@ -156,64 +191,107 @@ namespace usis.Data.LocalDb
             return new string[0];
         }
 
-        #region TODO
+        //  ----------------------
+        //  GetInstanceInfo method
+        //  ----------------------
 
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public void CreateInstance(/*string version, string instanceName*/)
+        public InstanceInfo GetInstanceInfo(string instanceName)
         {
-            throw new NotImplementedException();
+            var info = new LocalDBInstanceInfo();
+            ValidateHResult(library.GetFunction(nameof(LocalDBGetInstanceInfo), ref localDBGetInstanceInfo)(
+                instanceName, out info, Marshal.SizeOf<LocalDBInstanceInfo>()));
+            return new InstanceInfo(info);
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public InstanceInfo GetInstanceInfo(/*string instanceName*/)
+        //  ---------------------
+        //  CreateInstance method
+        //  ---------------------
+
+        public void CreateInstance(string version, string instanceName)
         {
-            throw new NotImplementedException();
+            ValidateHResult(library.GetFunction(nameof(LocalDBCreateInstance), ref localDBCreateInstance)(
+                version, instanceName, 0));
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public void ShareInstance(/*string owner, string instancePrivateName, string instanceSharedName*/)
+        //  ---------------------
+        //  DeleteInstance method
+        //  ---------------------
+
+        public void DeleteInstance(string instanceName)
         {
-            throw new NotImplementedException();
+            ValidateHResult(library.GetFunction(nameof(LocalDBDeleteInstance), ref localDBDeleteInstance)(
+                instanceName, 0));
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public string StartInstance(/*string instanceName*/)
+        //  --------------------
+        //  StartInstance method
+        //  --------------------
+
+        public string StartInstance(string instanceName)
         {
-            throw new NotImplementedException();
+            int size = Constants.LOCALDB_MAX_SQLCONNECTION_BUFFER_SIZE + 1;
+            var buffer = new StringBuilder(size);
+            ValidateHResult(library.GetFunction(nameof(LocalDBStartInstance), ref localDBStartInstance)(
+                instanceName, 0, buffer, ref size));
+            return buffer.ToString();
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public string UnshareInstance(/*string instanceName*/)
+        //  -------------------
+        //  StopInstance method
+        //  -------------------
+
+        public void StopInstance(string instanceName, StopInstanceOptions options, TimeSpan timeout)
         {
-            throw new NotImplementedException();
+            ValidateHResult(library.GetFunction(nameof(LocalDBStopInstance), ref localDBStopInstance)(
+                instanceName, (uint)options, Convert.ToUInt32(timeout.TotalSeconds)));
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public void StartTracing()
+        //  --------------------
+        //  ShareInstance method
+        //  --------------------
+
+        public void ShareInstance(string owner, string instancePrivateName, string instanceSharedName)
         {
-            throw new NotImplementedException();
+            var sid = new SecurityIdentifier(owner);
+            var bytes = new byte[sid.BinaryLength];
+            sid.GetBinaryForm(bytes, 0);
+
+            var ownerSID = Marshal.AllocHGlobal(bytes.Length);
+            Marshal.Copy(bytes, 0, ownerSID, bytes.Length);
+
+            ValidateHResult(library.GetFunction(nameof(LocalDBShareInstance), ref localDBShareInstance)(
+                ownerSID, instancePrivateName, instanceSharedName, 0));
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public void StopTracing()
+        //  ----------------------
+        //  UnshareInstance method
+        //  ----------------------
+
+        public void UnshareInstance(string instanceName)
         {
-            throw new NotImplementedException();
+            ValidateHResult(library.GetFunction(nameof(LocalDBUnshareInstance), ref localDBUnshareInstance)(
+                instanceName, 0));
         }
 
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public void StopInstance(/*string instanceName, int flags, int timeout*/)
-        {
-            throw new NotImplementedException();
-        }
+        //  -------------------
+        //  StartTracing method
+        //  -------------------
 
-        [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        public void DeleteInstance(/*string instanceName*/)
-        {
-            throw new NotImplementedException();
-        }
+        /// <summary>
+        /// Enables tracing of API calls for all the SQL Server Express LocalDB instances owned by the current Windows user.
+        /// </summary>
 
-        #endregion TODO
+        public void StartTracing() => ValidateHResult(library.GetFunction(nameof(LocalDBStartTracing), ref localDBStartTracing)());
+
+        //  ------------------
+        //  StopTracing method
+        //  ------------------
+
+        /// <summary>
+        /// Disables tracing of API calls for all the SQL Server Express LocalDB instances owned by the current Windows user.
+        /// </summary>
+
+        public void StopTracing() => ValidateHResult(library.GetFunction(nameof(LocalDBStopTracing), ref localDBStopTracing)());
 
         #region private methods
 

@@ -7,8 +7,26 @@
 //
 //  Copyright (c) 2018 usis GmbH. All rights reserved.
 
+using System;
+
 namespace usis.Data.LocalDb
 {
+    #region StopInstanceOptions enumeration
+
+    //  -------------------------------
+    //  StopInstanceOptions enumeration
+    //  -------------------------------
+
+    [Flags]
+    public enum StopInstanceOptions
+    {
+        None = 0x0,
+        ShutdownKillProcess = 0x1,
+        ShutdownWithNoWait = 0x2
+    }
+
+    #endregion StopInstanceOptions enumeration
+
     //  ---------------
     //  Constants class
     //  ---------------
@@ -21,6 +39,8 @@ namespace usis.Data.LocalDb
 
         internal const int MAX_LOCALDB_VERSION_LENGTH = 43;
         internal const int MAX_LOCALDB_INSTANCE_NAME_LENGTH = 128;
+        internal const int LOCALDB_MAX_SQLCONNECTION_BUFFER_SIZE = 260;
+        internal const int MAX_STRING_SID_LENGTH = 186;
 
         internal const uint LOCALDB_ERROR_INVALID_PARAMETER = 0x89C50101;
         internal const uint LOCALDB_ERROR_INTERNAL_ERROR = 0x89C50108;
