@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using System.Text;
 
 namespace usis.Data.LocalDb
 {
@@ -45,7 +46,7 @@ namespace usis.Data.LocalDb
             {
                 if (hr == ok) return (hr & 0x80000000) == 0;
             }
-            if ((hr & 0x800000000) != 0) throw createException(hr);
+            if ((hr & 0x80000000) != 0) throw createException(hr);
             return true;
         }
 
@@ -61,6 +62,34 @@ namespace usis.Data.LocalDb
                 yield return function(offset);
             }
         }
+
+        //  ---------------
+        //  ToString method
+        //  ---------------
+
+        internal static string ToString(this byte[] bytes, Encoding encoding) => encoding.GetString(bytes).TrimEnd('\0');
+
+        //  -----------------
+        //  ToDateTime method
+        //  -----------------
+
+        internal static DateTime ToDateTime(this System.Runtime.InteropServices.ComTypes.FILETIME fileTime) => DateTimeFromFileTime(fileTime.dwHighDateTime, fileTime.dwLowDateTime);
+
+        #region private methods
+
+        //  ---------------------------
+        //  DateTimeFromFileTime method
+        //  ---------------------------
+
+        private static DateTime DateTimeFromFileTime(int high, int low)
+        {
+            if (high == 0 && low == 0) return DateTime.MinValue;
+
+            long fileTime = ((long)high << 32) + (uint)low;
+            return DateTime.FromFileTime(fileTime);
+        }
+
+        #endregion private methods
     }
 }
 
