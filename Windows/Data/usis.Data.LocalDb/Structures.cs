@@ -74,7 +74,7 @@ namespace usis.Data.LocalDb
         internal System.Runtime.InteropServices.ComTypes.FILETIME LastStartUTC;
 
         // holds the name of the TDS named pipe to connect to the instance  
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = (Constants.LOCALDB_MAX_SQLCONNECTION_BUFFER_SIZE + 1) * sizeof(char))]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = Constants.LOCALDB_MAX_SQLCONNECTION_BUFFER_SIZE * sizeof(char))]
         internal byte[] Connection;
 
         // TRUE if the instance is shared, FALSE otherwise  
