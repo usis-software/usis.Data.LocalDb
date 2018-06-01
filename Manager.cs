@@ -169,17 +169,33 @@ namespace usis.Data.LocalDb
         //  GetVersionInfo method
         //  ---------------------
 
+        /// <summary>
+        /// Gets information for the specified SQL Server Express LocalDB version,
+        /// such as whether it exists and the full LocalDB version number (including build and release numbers).
+        /// </summary>
+        /// <param name="version">The LocalDB version name.</param>
+        /// <returns>
+        /// The information about the specified LocalDB version.
+        /// </returns>
+
         public VersionInfo GetVersionInfo(string version)
         {
-            var function = library.GetFunction(nameof(LocalDBGetVersionInfo), ref localDBGetVersionInfo);
             var info = new LocalDBVersionInfo();
-            ValidateHResult(function(version, out info, Marshal.SizeOf<LocalDBVersionInfo>()));
+            ValidateHResult(library.GetFunction(nameof(LocalDBGetVersionInfo), ref localDBGetVersionInfo)(
+                version, out info, Marshal.SizeOf<LocalDBVersionInfo>()));
             return new VersionInfo(info);
         }
 
         //  -------------------
         //  GetInstances method
         //  -------------------
+
+        /// <summary>
+        /// Gets the names of both named and default LocalDB instances on the user’s workstation.
+        /// </summary>
+        /// <returns>
+        /// An array that contains the names of both named and default LocalDB instances on the user’s workstation.
+        /// </returns>
 
         public string[] GetInstances()
         {
@@ -206,6 +222,15 @@ namespace usis.Data.LocalDb
         //  GetInstanceInfo method
         //  ----------------------
 
+        /// <summary>
+        /// Gets information for the specified SQL Server Express LocalDB instance,
+        /// such as whether it exists, the LocalDB version it uses, whether it is running, and so on.
+        /// </summary>
+        /// <param name="instanceName">Name of the instance.</param>
+        /// <returns>
+        /// The information about the specified LocalDB instance.
+        /// </returns>
+
         public InstanceInfo GetInstanceInfo(string instanceName)
         {
             var info = new LocalDBInstanceInfo();
@@ -218,6 +243,12 @@ namespace usis.Data.LocalDb
         //  CreateInstance method
         //  ---------------------
 
+        /// <summary>
+        /// Creates a new SQL Server Express LocalDB instance.
+        /// </summary>
+        /// <param name="version">The LocalDB version, for example <c>11.0</c> or <c>11.0.1094.2</c>.</param>
+        /// <param name="instanceName">The name for the LocalDB instance to create.</param>
+
         public void CreateInstance(string version, string instanceName)
         {
             ValidateHResult(library.GetFunction(nameof(LocalDBCreateInstance), ref localDBCreateInstance)(
@@ -228,6 +259,11 @@ namespace usis.Data.LocalDb
         //  DeleteInstance method
         //  ---------------------
 
+        /// <summary>
+        /// Removes the specified SQL Server Express LocalDB instance.
+        /// </summary>
+        /// <param name="instanceName">The name of the LocalDB instance to remove.</param>
+
         public void DeleteInstance(string instanceName)
         {
             ValidateHResult(library.GetFunction(nameof(LocalDBDeleteInstance), ref localDBDeleteInstance)(
@@ -237,6 +273,12 @@ namespace usis.Data.LocalDb
         //  --------------------
         //  StartInstance method
         //  --------------------
+
+        /// <summary>
+        /// Starts the specified SQL Server Express LocalDB instance.
+        /// </summary>
+        /// <param name="instanceName">The name of the LocalDB instance to start.</param>
+        /// <returns>The name of the TDS named pipe to connect to the instance.</returns>
 
         public string StartInstance(string instanceName)
         {
@@ -251,6 +293,16 @@ namespace usis.Data.LocalDb
         //  StopInstance method
         //  -------------------
 
+        /// <summary>
+        /// Stops the specified SQL Server Express LocalDB instance from running.
+        /// </summary>
+        /// <param name="instanceName">The name of the LocalDB instance to stop.</param>
+        /// <param name="options">One or a combination of the option values specifying the way to stop the instance.</param>
+        /// <param name="timeout">
+        /// The time in seconds to wait for this operation to complete.
+        /// If this value is 0, this function will return immediately without waiting for the LocalDB instance to stop.
+        /// </param>
+
         public void StopInstance(string instanceName, StopInstanceOptions options, TimeSpan timeout)
         {
             ValidateHResult(library.GetFunction(nameof(LocalDBStopInstance), ref localDBStopInstance)(
@@ -260,6 +312,13 @@ namespace usis.Data.LocalDb
         //  --------------------
         //  ShareInstance method
         //  --------------------
+
+        /// <summary>
+        /// Shares the specified SQL Server Express LocalDB instance with other users of the computer, using the specified shared name.
+        /// </summary>
+        /// <param name="owner">The SID of the instance owner.</param>
+        /// <param name="instancePrivateName">The private name for the LocalDB instance to share.</param>
+        /// <param name="instanceSharedName">The shared name for the LocalDB instance to share.</param>
 
         public void ShareInstance(string owner, string instancePrivateName, string instanceSharedName)
         {
@@ -285,10 +344,14 @@ namespace usis.Data.LocalDb
         //  UnshareInstance method
         //  ----------------------
 
+        /// <summary>
+        /// Stops the sharing of the specified SQL Server Express LocalDB instance.
+        /// </summary>
+        /// <param name="instanceName">The shared name for the LocalDB instance to unshare.</param>
+
         public void UnshareInstance(string instanceName)
         {
-            ValidateHResult(library.GetFunction(nameof(LocalDBUnshareInstance), ref localDBUnshareInstance)(
-                instanceName, 0));
+            ValidateHResult(library.GetFunction(nameof(LocalDBUnshareInstance), ref localDBUnshareInstance)(instanceName, 0));
         }
 
         //  -------------------

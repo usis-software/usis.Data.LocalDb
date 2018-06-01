@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Linq;
 
 namespace usis.Data.LocalDb
 {
@@ -67,7 +68,7 @@ namespace usis.Data.LocalDb
         //  ToString method
         //  ---------------
 
-        internal static string ToString(this byte[] bytes, Encoding encoding) => encoding.GetString(bytes).TrimEnd('\0');
+        internal static string ToString(this byte[] bytes, Encoding encoding) => new string(encoding.GetChars(bytes).TakeWhile(c => c != '\0').ToArray());
 
         //  -----------------
         //  ToDateTime method
