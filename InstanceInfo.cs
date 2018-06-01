@@ -129,7 +129,7 @@ namespace usis.Data.LocalDb
         public string SharedInstanceName { get; }
 
         /// <summary>
-        /// Gets the SID of the instance owner (if the instance is shared).
+        /// Gets the SID of the instance owner.
         /// </summary>
         /// <value>
         /// The SID of the instance owner.
