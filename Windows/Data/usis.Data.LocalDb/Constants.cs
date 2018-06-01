@@ -7,26 +7,8 @@
 //
 //  Copyright (c) 2018 usis GmbH. All rights reserved.
 
-using System;
-
 namespace usis.Data.LocalDb
 {
-    #region StopInstanceOptions enumeration
-
-    //  -------------------------------
-    //  StopInstanceOptions enumeration
-    //  -------------------------------
-
-    [Flags]
-    public enum StopInstanceOptions
-    {
-        None = 0x0,
-        ShutdownKillProcess = 0x1,
-        ShutdownWithNoWait = 0x2
-    }
-
-    #endregion StopInstanceOptions enumeration
-
     //  ---------------
     //  Constants class
     //  ---------------

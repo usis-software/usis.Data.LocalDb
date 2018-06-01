@@ -107,6 +107,10 @@ namespace usis.Data.LocalDb
         //  Dispose method
         //  --------------
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+
         public void Dispose() => library.Dispose();
 
         #endregion IDisposable implementation
@@ -132,6 +136,13 @@ namespace usis.Data.LocalDb
         //  ------------------
         //  GetVersions method
         //  ------------------
+
+        /// <summary>
+        /// Returns all SQL Server Express LocalDB versions available on the computer.
+        /// </summary>
+        /// <returns>
+        /// An array that contains the names of the LocalDB versions that are available on the user’s workstation.
+        /// </returns>
 
         public string[] GetVersions()
         {
@@ -257,10 +268,17 @@ namespace usis.Data.LocalDb
             sid.GetBinaryForm(bytes, 0);
 
             var ownerSID = Marshal.AllocHGlobal(bytes.Length);
-            Marshal.Copy(bytes, 0, ownerSID, bytes.Length);
+            try
+            {
+                Marshal.Copy(bytes, 0, ownerSID, bytes.Length);
 
-            ValidateHResult(library.GetFunction(nameof(LocalDBShareInstance), ref localDBShareInstance)(
-                ownerSID, instancePrivateName, instanceSharedName, 0));
+                ValidateHResult(library.GetFunction(nameof(LocalDBShareInstance), ref localDBShareInstance)(
+                    ownerSID, instancePrivateName, instanceSharedName, 0));
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(ownerSID);
+            }
         }
 
         //  ----------------------

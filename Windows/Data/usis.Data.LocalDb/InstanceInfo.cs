@@ -16,6 +16,10 @@ namespace usis.Data.LocalDb
     //  InstanceInfo class
     //  ------------------
 
+    /// <summary>
+    /// Provides information about a SQL Server Express LocalDB instance.
+    /// </summary>
+
     public class InstanceInfo
     {
         #region construction
@@ -40,7 +44,23 @@ namespace usis.Data.LocalDb
 
         #endregion construction
 
+        #region properties
+
+        /// <summary>
+        /// Gets the instance name.
+        /// </summary>
+        /// <value>
+        /// The instance name.
+        /// </value>
+
         public string Name { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the instance files exist on disk.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if the instance files exist on disk; otherwise, <c>false</c>.
+        /// </value>
 
         public bool Exists { get; } 
 
@@ -59,6 +79,8 @@ namespace usis.Data.LocalDb
         public string Owner { get; }
 
         public bool IsAutomatic { get; }
+
+        #endregion properties
 
         #region overrides
 
