@@ -61,6 +61,15 @@ namespace usis.Data.LocalDb {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to LocalDB API path: {0}.
+        /// </summary>
+        internal static string ApiPath {
+            get {
+                return ResourceManager.GetString("ApiPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error code 0x{0:x}.
         /// </summary>
         internal static string ErrorCode {
@@ -75,6 +84,15 @@ namespace usis.Data.LocalDb {
         internal static string FailedToRetrieveMessage {
             get {
                 return ResourceManager.GetString("FailedToRetrieveMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The input buffer is too short, and truncation is not requested..
+        /// </summary>
+        internal static string InsufficientBuffer {
+            get {
+                return ResourceManager.GetString("InsufficientBuffer", resourceCulture);
             }
         }
         
