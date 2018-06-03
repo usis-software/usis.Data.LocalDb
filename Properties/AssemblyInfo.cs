@@ -1,4 +1,13 @@
-﻿using System;
+﻿//
+//  @(#) AssemblyInfo.cs
+//
+//  Project:    usis.Data.LocalDb
+//  System:     Microsoft Visual Studio 2017
+//  Author:     Udo Schäfer
+//
+//  Copyright (c) 2018 usis GmbH. All rights reserved.
+
+using System;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
@@ -40,3 +49,5 @@ using System.Runtime.InteropServices;
 
 // The assembly's default culture 
 [assembly: NeutralResourcesLanguage("en-US")]
+
+// eof "AssemblyInfo.cs"
