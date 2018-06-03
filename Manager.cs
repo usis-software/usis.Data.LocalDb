@@ -8,7 +8,7 @@
 //  Copyright (c) 2018 usis GmbH. All rights reserved.
 
 using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -97,7 +97,16 @@ namespace usis.Data.LocalDb
         //  construction
         //  ------------
 
-        private Manager(string path) => library = new NativeLibraryHandle(path);
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Manager"/> class.
+        /// </summary>
+        /// <param name="path">The path of the LocalDB API library.</param>
+
+        public Manager(string path)
+        {
+            Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, Strings.ApiPath, path));
+            library = new NativeLibraryHandle(path);
+        }
 
         #endregion construction
 
@@ -117,6 +126,24 @@ namespace usis.Data.LocalDb
 
         #region methods
 
+        //  ------------------
+        //  IsInstalled method
+        //  ------------------
+
+        /// <summary>
+        /// Determines whether SQL Server Express LocalDB is installed on the computer.
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if SQL Server Express LocalDB is installed on the computer; otherwise, <c>false</c>.
+        /// </returns>
+
+        public static bool IsInstalled()
+        {
+            var dictionary = InstalledVersions.FromRegistry();
+            if (dictionary.Count == 0) return false;
+            return true;
+        }
+
         //  -------------
         //  Create method
         //  -------------
@@ -128,8 +155,8 @@ namespace usis.Data.LocalDb
 
         public static Manager Create()
         {
-            var dictionary = new SortedDictionary<Version, string>();
-            InstalledVersions.ForEach((name, key) => dictionary.Add(new Version(name), key.GetValue(Constants.RegistryValueName) as string));
+            var dictionary = InstalledVersions.FromRegistry();
+            if (dictionary.Count == 0) throw new LocalDbException(Strings.NotInstalled);
             return new Manager(dictionary.LastOrDefault().Value);
         }
 
@@ -299,14 +326,16 @@ namespace usis.Data.LocalDb
         /// <param name="instanceName">The name of the LocalDB instance to stop.</param>
         /// <param name="options">One or a combination of the option values specifying the way to stop the instance.</param>
         /// <param name="timeout">
-        /// The time in seconds to wait for this operation to complete.
+        /// The time to wait for this operation to complete.
         /// If this value is 0, this function will return immediately without waiting for the LocalDB instance to stop.
         /// </param>
 
         public void StopInstance(string instanceName, StopInstanceOptions options, TimeSpan timeout)
         {
+            // if timeout is 0, the function returns immediately with an error code
+            var t = Convert.ToUInt32(timeout.TotalSeconds);
             ValidateHResult(library.GetFunction(nameof(LocalDBStopInstance), ref localDBStopInstance)(
-                instanceName, (uint)options, Convert.ToUInt32(timeout.TotalSeconds)));
+                instanceName, (uint)options, t), t == 0 ? Constants.LOCALDB_ERROR_WAIT_TIMEOUT : 0);
         }
 
         //  --------------------
@@ -397,6 +426,9 @@ namespace usis.Data.LocalDb
             string message;
             switch (result)
             {
+                case Constants.LOCALDB_ERROR_NOT_INSTALLED:
+                    message = Strings.NotInstalled;
+                    break;
                 case Constants.LOCALDB_ERROR_INVALID_PARAMETER:
                     message = Strings.InvalidParameter;
                     break;
@@ -404,6 +436,9 @@ namespace usis.Data.LocalDb
                     return string.Format(CultureInfo.CurrentCulture, Strings.UnknownErrorCode, hr);
                 case Constants.LOCALDB_ERROR_UNKNOWN_LANGUAGE_ID:
                     message = Strings.UnknownLanguageId;
+                    break;
+                case Constants.LOCALDB_ERROR_INSUFFICIENT_BUFFER:
+                    message = Strings.InsufficientBuffer;
                     break;
                 case Constants.LOCALDB_ERROR_INTERNAL_ERROR:
                     message = Strings.InternalError;

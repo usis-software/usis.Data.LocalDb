@@ -9,6 +9,7 @@
 
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 
 namespace usis.Data.LocalDb
 {
@@ -18,6 +19,17 @@ namespace usis.Data.LocalDb
 
     internal static class InstalledVersions
     {
+        //  -------------------
+        //  FromRegistry method
+        //  -------------------
+
+        internal static IDictionary<Version, string> FromRegistry()
+        {
+            var dictionary = new SortedDictionary<Version, string>();
+            ForEach((name, key) => dictionary.Add(new Version(name), key.GetValue(Constants.RegistryValueName) as string));
+            return dictionary;
+        }
+
         //  --------------
         //  ForEach method
         //  --------------
@@ -37,7 +49,7 @@ namespace usis.Data.LocalDb
         //  ForEachName method
         //  ------------------
 
-        public static void ForEachName(Action<RegistryKey, string> action)
+        private static void ForEachName(Action<RegistryKey, string> action)
         {
             using (var registryKey = Registry.LocalMachine.OpenSubKey(Constants.ProductRegistryKeyPath))
             {
