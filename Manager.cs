@@ -102,7 +102,7 @@ namespace usis.Data.LocalDb
         /// </summary>
         /// <param name="path">The path of the LocalDB API library.</param>
 
-        public Manager(string path)
+        private Manager(string path)
         {
             Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, Strings.ApiPath, path));
             library = new NativeLibraryHandle(path);
