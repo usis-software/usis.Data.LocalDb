@@ -70,6 +70,7 @@
     <None Include="..\..\shared\usis.dev.pfx">
       <Link>usis.dev.pfx</Link>
     </None>
+    <None Include="usis.Data.LocalDb.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\..\shared\CustomDictionary.xml">
@@ -86,4 +87,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if $(ConfigurationName)==Release NuGet pack $(ProjectPath) -Verbosity normal -Properties Configuration=$(ConfigurationName) -OutputDirectory $(SolutionDir)NuGet</PostBuildEvent>
+  </PropertyGroup>
 </Project>
