@@ -28,7 +28,7 @@ namespace usis.Data.LocalDb
 
         public NativeLibraryHandle(string fileName) : base(true)
         {
-            var handle = SafeNativeMethods.LoadLibraryEx(fileName, IntPtr.Zero, 0);
+            var handle = NativeMethods.LoadLibraryEx(fileName, IntPtr.Zero, 0);
             if (handle == IntPtr.Zero) throw new Win32Exception(Marshal.GetLastWin32Error());
             SetHandle(handle);
         }
@@ -43,7 +43,7 @@ namespace usis.Data.LocalDb
 
         protected override bool ReleaseHandle()
         {
-            return SafeNativeMethods.FreeLibrary(handle);
+            return NativeMethods.FreeLibrary(handle);
         }
 
         #endregion overrides

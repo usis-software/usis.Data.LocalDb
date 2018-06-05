@@ -145,13 +145,13 @@ namespace usis.Data.LocalDb
         //  GetFunction method
         //  ------------------
 
-        internal static T GetFunction<T>(this NativeLibraryHandle library, string procName, ref T function)
+        internal static T GetFunction<T>(this NativeLibraryHandle library, string procName, ref T function) where T : class
         {
             if (function == null)
             {
-                var address = SafeNativeMethods.GetProcAddress(library, procName);
+                var address = NativeMethods.GetProcAddress(library, procName);
                 if (address == IntPtr.Zero) throw new Win32Exception(Marshal.GetLastWin32Error());
-                function = Marshal.GetDelegateForFunctionPointer<T>(address);
+                function = Marshal.GetDelegateForFunctionPointer(address, typeof(T)) as T;
             }
             return function;
         }

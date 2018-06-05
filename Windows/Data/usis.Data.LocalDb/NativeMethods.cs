@@ -16,7 +16,7 @@ namespace usis.Data.LocalDb
     //  SafeNativeMethods class
     //  -----------------------
 
-    internal static class SafeNativeMethods
+    internal static class NativeMethods
     {
         #region constants
 
