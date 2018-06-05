@@ -209,7 +209,7 @@ namespace usis.Data.LocalDb
         {
             var info = new LocalDBVersionInfo();
             ValidateHResult(library.GetFunction(nameof(LocalDBGetVersionInfo), ref localDBGetVersionInfo)(
-                version, out info, Marshal.SizeOf<LocalDBVersionInfo>()));
+                version, out info, Marshal.SizeOf(typeof(LocalDBVersionInfo))));
             return new VersionInfo(info);
         }
 
@@ -262,7 +262,7 @@ namespace usis.Data.LocalDb
         {
             var info = new LocalDBInstanceInfo();
             ValidateHResult(library.GetFunction(nameof(LocalDBGetInstanceInfo), ref localDBGetInstanceInfo)(
-                instanceName, out info, Marshal.SizeOf<LocalDBInstanceInfo>()));
+                instanceName, out info, Marshal.SizeOf(typeof(LocalDBInstanceInfo))));
             return new InstanceInfo(info);
         }
 
