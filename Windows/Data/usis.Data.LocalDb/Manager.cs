@@ -223,6 +223,26 @@ namespace usis.Data.LocalDb
         /// <returns>
         /// An array that contains the names of both named and default LocalDB instances on the user’s workstation.
         /// </returns>
+        /// <example>
+        ///using System;
+        ///
+        ///namespace usis.Data.LocalDb.Samples
+        ///{
+        ///    public static class Operations
+        ///    {
+        ///        public static void ListInstances()
+        ///        {
+        ///            using (var manager = Manager.Create())
+        ///            {
+        ///                foreach (var instance in manager.GetInstances())
+        ///                {
+        ///                    Console.WriteLine(instance);
+        ///                }
+        ///            }
+        ///        }
+        ///    }
+        ///}
+        /// </example>
 
         public string[] GetInstances()
         {

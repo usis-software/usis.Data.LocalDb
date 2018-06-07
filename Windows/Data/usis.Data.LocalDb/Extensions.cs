@@ -39,6 +39,47 @@ namespace usis.Data.LocalDb
         /// <returns>
         /// An enumerator to iterate through all version informations.
         /// </returns>
+        /// <example>
+        /// <code>
+        ///using System;
+        ///
+        ///namespace usis.Data.LocalDb.Samples
+        ///{
+        ///    public static class Operations
+        ///    {
+        ///        public static void ListVersions()
+        ///        {
+        ///            using (var manager = Manager.Create())
+        ///            {
+        ///                foreach (var version in manager.EnumerateVersions())
+        ///                {
+        ///                    string format;
+        ///                    switch (version.Version.Major)
+        ///                    {
+        ///                        case 11:
+        ///                            format = "Microsoft SQL Server 2012 ({0})";
+        ///                            break;
+        ///                        case 12:
+        ///                            format = "Microsoft SQL Server 2014 ({0})";
+        ///                            break;
+        ///                        case 13:
+        ///                            format = "Microsoft SQL Server 2016 ({0})";
+        ///                            break;
+        ///                        case 14:
+        ///                            format = "Microsoft SQL Server 2017 ({0})";
+        ///                            break;
+        ///                        default:
+        ///                            format = "{0}";
+        ///                            break;
+        ///                    }
+        ///                    Console.WriteLine(format, version.Name);
+        ///                }
+        ///            }
+        ///        }
+        ///    }
+        ///}
+        /// </code>
+        /// </example>
 
         public static IEnumerable<VersionInfo> EnumerateVersions(this Manager manager)
         {
