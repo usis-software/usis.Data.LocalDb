@@ -1,0 +1,1 @@
+﻿usis.Data.LocalDb.InstanceInfo implements IEquatable<InstanceInfo>

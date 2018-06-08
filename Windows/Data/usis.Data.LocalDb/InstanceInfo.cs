@@ -20,7 +20,7 @@ namespace usis.Data.LocalDb
     /// Provides information about a SQL Server Express LocalDB instance.
     /// </summary>
 
-    public class InstanceInfo
+    public class InstanceInfo : IEquatable<InstanceInfo>
     {
         #region construction
 
@@ -164,6 +164,20 @@ namespace usis.Data.LocalDb
         public override string ToString() => Name;
 
         #endregion overrides
+
+        #region IEquatable<InstanceInfo> implementation
+
+        //  -------------
+        //  Equals method
+        //  -------------
+
+        bool IEquatable<InstanceInfo>.Equals(InstanceInfo other)
+        {
+            if (other == null) return false;
+            return Name.Equals(other.Name, StringComparison.Ordinal);
+        }
+
+        #endregion IEquatable<InstanceInfo> implementation
     }
 }
 

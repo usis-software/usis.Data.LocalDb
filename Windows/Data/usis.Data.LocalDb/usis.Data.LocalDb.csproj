@@ -86,6 +86,9 @@
   <ItemGroup>
     <Reference Include="System" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ReleaseNotes.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName)==Release NuGet pack $(ProjectPath) -Verbosity normal -Properties Configuration=$(ConfigurationName) -OutputDirectory $(SolutionDir)NuGet</PostBuildEvent>
