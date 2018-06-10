@@ -20,7 +20,7 @@ namespace usis.Data.LocalDb
     /// Provides information about a SQL Server Express LocalDB version.
     /// </summary>
 
-    public class VersionInfo
+    public class VersionInfo : IEquatable<VersionInfo>
     {
         #region construction
 
@@ -84,6 +84,20 @@ namespace usis.Data.LocalDb
         public override string ToString() => Name;
 
         #endregion overrides
+
+        #region IEquatable<VersionInfo> implementation
+
+        //  -------------
+        //  Equals method
+        //  -------------
+
+        bool IEquatable<VersionInfo>.Equals(VersionInfo other)
+        {
+            if (other == null) return false;
+            return Version.Equals(other.Version);
+        }
+
+        #endregion IEquatable<VersionInfo> implementation
     }
 }
 
