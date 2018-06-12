@@ -123,7 +123,7 @@ namespace usis.Data.LocalDb
 
         /// <summary>
         /// Creates a new SQL Server Express LocalDB instance
-        /// with the highest istalled version.
+        /// with the highest installed version.
         /// </summary>
         /// <param name="manager">The LocalDB manager object.</param>
         /// <param name="instanceName">The name for the LocalDB instance to create.</param>
