@@ -42,7 +42,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\..\shared\usis.dev.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>usis.Data.LocalDb.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
@@ -64,18 +64,8 @@
     <Compile Include="VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\..\Program Files\Microsoft SQL Server\110\SDK\Include\sqlncli.h">
-      <Link>sqlncli.h</Link>
-    </None>
-    <None Include="..\..\shared\usis.dev.pfx">
-      <Link>usis.dev.pfx</Link>
-    </None>
     <None Include="usis.Data.LocalDb.nuspec" />
-  </ItemGroup>
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="..\..\shared\CustomDictionary.xml">
-      <Link>CustomDictionary.xml</Link>
-    </CodeAnalysisDictionary>
+    <None Include="usis.Data.LocalDb.snk" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Strings.resx">
@@ -88,6 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ReleaseNotes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
