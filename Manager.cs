@@ -8,7 +8,6 @@
 //  Copyright (c) 2018 usis GmbH. All rights reserved.
 
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -102,11 +101,7 @@ namespace usis.Data.LocalDb
         /// </summary>
         /// <param name="path">The path of the LocalDB API library.</param>
 
-        private Manager(string path)
-        {
-            Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, Strings.ApiPath, path));
-            library = new NativeLibraryHandle(path);
-        }
+        private Manager(string path) => library = new NativeLibraryHandle(path);
 
         #endregion construction
 
@@ -311,11 +306,7 @@ namespace usis.Data.LocalDb
         /// </summary>
         /// <param name="instanceName">The name of the LocalDB instance to remove.</param>
 
-        public void DeleteInstance(string instanceName)
-        {
-            ValidateHResult(library.GetFunction(nameof(LocalDBDeleteInstance), ref localDBDeleteInstance)(
-                instanceName, 0));
-        }
+        public void DeleteInstance(string instanceName) => ValidateHResult(library.GetFunction(nameof(LocalDBDeleteInstance), ref localDBDeleteInstance)(instanceName, 0));
 
         //  --------------------
         //  StartInstance method
@@ -398,10 +389,7 @@ namespace usis.Data.LocalDb
         /// </summary>
         /// <param name="instanceName">The shared name for the LocalDB instance to unshare.</param>
 
-        public void UnshareInstance(string instanceName)
-        {
-            ValidateHResult(library.GetFunction(nameof(LocalDBUnshareInstance), ref localDBUnshareInstance)(instanceName, 0));
-        }
+        public void UnshareInstance(string instanceName) => ValidateHResult(library.GetFunction(nameof(LocalDBUnshareInstance), ref localDBUnshareInstance)(instanceName, 0));
 
         //  -------------------
         //  StartTracing method
@@ -474,10 +462,7 @@ namespace usis.Data.LocalDb
         //  ValidateHResult method
         //  ----------------------
 
-        private bool ValidateHResult(uint hr, params uint[] values)
-        {
-            return hr.ValidateHResult(error => new LocalDbException(error, FormatMessage(hr, 0)), values);
-        }
+        private bool ValidateHResult(uint hr, params uint[] values) => hr.ValidateHResult(error => new LocalDbException(error, FormatMessage(hr, 0)), values);
 
         #endregion private methods
 

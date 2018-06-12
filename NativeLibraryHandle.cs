@@ -41,10 +41,7 @@ namespace usis.Data.LocalDb
         //  ReleaseHandle method
         //  --------------------
 
-        protected override bool ReleaseHandle()
-        {
-            return NativeMethods.FreeLibrary(handle);
-        }
+        protected override bool ReleaseHandle() => NativeMethods.FreeLibrary(handle);
 
         #endregion overrides
     }
