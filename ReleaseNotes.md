@@ -1,12 +1,20 @@
-﻿# usis.Data.LocalDb Release Notes
+﻿##### Release Notes
 
-## Release v1.0 - Initial
+### usis.Data.LocalDb
 
-This is the initial release.
+---
 
-##  Next Release: v1.1
+#### Release v1.0 - Initial
 
-* **usis.Data.LocalDb.InstanceInfo** now implements **IEquatable\<InstanceInfo>**
-* **usis.Data.LocalDb.VersionInfo** now implements **IEquatable\<VersionInfo>**
-* Code cleanup
-* Sample code in documentation
+This was the initial release.
+
+---
+
+#### Next Release: v1.1
+
+- `usis.Data.LocalDb.InstanceInfo` now implements `IEquatable<InstanceInfo>`
+- `usis.Data.LocalDb.VersionInfo` now implements `IEquatable<VersionInfo>`
+- Code cleanup
+- Sample code in documentation
+
+---
