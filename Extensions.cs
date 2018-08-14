@@ -83,10 +83,8 @@ namespace usis.Data.LocalDb
 
         public static IEnumerable<VersionInfo> EnumerateVersions(this Manager manager)
         {
-            foreach (var version in manager.GetVersions())
-            {
-                yield return manager.GetVersionInfo(version);
-            }
+            if (manager == null) throw new ArgumentNullException(nameof(manager));
+            return manager.GetVersions().Select(version => manager.GetVersionInfo(version));
         }
 
         #endregion EnumerateVersions method
@@ -107,10 +105,8 @@ namespace usis.Data.LocalDb
 
         public static IEnumerable<InstanceInfo> EnumerateInstances(this Manager manager)
         {
-            foreach (var instance in manager.GetInstances())
-            {
-                yield return manager.GetInstanceInfo(instance);
-            }
+            if (manager == null) throw new ArgumentNullException(nameof(manager));
+            return manager.GetInstances().Select(instance => manager.GetInstanceInfo(instance));
         }
 
         #endregion EnumerateInstances methods

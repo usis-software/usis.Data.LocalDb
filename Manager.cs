@@ -132,12 +132,7 @@ namespace usis.Data.LocalDb
         ///   <c>true</c> if SQL Server Express LocalDB is installed on the computer; otherwise, <c>false</c>.
         /// </returns>
 
-        public static bool IsInstalled()
-        {
-            var dictionary = InstalledVersions.FromRegistry();
-            if (dictionary.Count == 0) return false;
-            return true;
-        }
+        public static bool IsInstalled() => InstalledVersions.FromRegistry().Count > 0;
 
         //  -------------
         //  Create method
