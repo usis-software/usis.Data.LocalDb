@@ -213,7 +213,7 @@ namespace usis.Data.LocalDb
 
         internal static IEnumerable<T> Enumerate<T>(this IntPtr pointer, int count, int size, Func<IntPtr, T> function)
         {
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var offset = new IntPtr(pointer.ToInt64() + size * i);
                 yield return function(offset);
@@ -244,7 +244,7 @@ namespace usis.Data.LocalDb
         {
             if (high == 0 && low == 0) return DateTime.MinValue;
 
-            long fileTime = ((long)high << 32) + (uint)low;
+            var fileTime = ((long)high << 32) + (uint)low;
             return DateTime.FromFileTime(fileTime);
         }
 

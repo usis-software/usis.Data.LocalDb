@@ -171,11 +171,7 @@ namespace usis.Data.LocalDb
         //  Equals method
         //  -------------
 
-        bool IEquatable<InstanceInfo>.Equals(InstanceInfo other)
-        {
-            if (other == null) return false;
-            return Name.Equals(other.Name, StringComparison.Ordinal);
-        }
+        bool IEquatable<InstanceInfo>.Equals(InstanceInfo other) => other == null ? false : Name.Equals(other.Name, StringComparison.Ordinal);
 
         #endregion IEquatable<InstanceInfo> implementation
     }

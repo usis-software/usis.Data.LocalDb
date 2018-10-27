@@ -91,11 +91,7 @@ namespace usis.Data.LocalDb
         //  Equals method
         //  -------------
 
-        bool IEquatable<VersionInfo>.Equals(VersionInfo other)
-        {
-            if (other == null) return false;
-            return Version.Equals(other.Version);
-        }
+        bool IEquatable<VersionInfo>.Equals(VersionInfo other) => other == null ? false : Version.Equals(other.Version);
 
         #endregion IEquatable<VersionInfo> implementation
     }

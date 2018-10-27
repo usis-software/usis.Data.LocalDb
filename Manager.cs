@@ -164,7 +164,7 @@ namespace usis.Data.LocalDb
         public string[] GetVersions()
         {
             var function = library.GetFunction(nameof(LocalDBGetVersions), ref localDBGetVersions);
-            int count = 0;
+            var count = 0;
             if (!ValidateHResult(function(IntPtr.Zero, ref count), Constants.LOCALDB_ERROR_INSUFFICIENT_BUFFER))
             {
                 var size = (Constants.MAX_LOCALDB_VERSION_LENGTH + 1) * sizeof(char);
@@ -237,7 +237,7 @@ namespace usis.Data.LocalDb
         public string[] GetInstances()
         {
             var function = library.GetFunction(nameof(LocalDBGetInstances), ref localDBGetInstances);
-            int count = 0;
+            var count = 0;
             if (!ValidateHResult(function(IntPtr.Zero, ref count), Constants.LOCALDB_ERROR_INSUFFICIENT_BUFFER))
             {
                 var size = (Constants.MAX_LOCALDB_INSTANCE_NAME_LENGTH + 1) * sizeof(char);
@@ -315,7 +315,7 @@ namespace usis.Data.LocalDb
 
         public string StartInstance(string instanceName)
         {
-            int size = Constants.LOCALDB_MAX_SQLCONNECTION_BUFFER_SIZE + 1;
+            var size = Constants.LOCALDB_MAX_SQLCONNECTION_BUFFER_SIZE + 1;
             var buffer = new StringBuilder(size);
             ValidateHResult(library.GetFunction(nameof(LocalDBStartInstance), ref localDBStartInstance)(
                 instanceName, 0, buffer, ref size));
@@ -417,7 +417,7 @@ namespace usis.Data.LocalDb
             if (hr == Constants.LOCALDB_ERROR_NOT_INSTALLED) return Strings.NotInstalled;
 
             var function = library.GetFunction(nameof(LocalDBFormatMessage), ref localDBFormatMessage);
-            int size = 0;
+            var size = 0;
             var builder = new StringBuilder();
             var result = function(hr, flags, 0, builder, ref size);
             if (result == Constants.LOCALDB_ERROR_INSUFFICIENT_BUFFER)
