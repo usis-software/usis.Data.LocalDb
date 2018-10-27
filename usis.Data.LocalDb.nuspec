@@ -6,8 +6,8 @@
     <title>$title$</title>
     <authors>$author$</authors>
     <owners>$author$</owners>
-    <projectUrl>http://help.usis-software.com/LocalDB/</projectUrl>
-    <iconUrl>http://www.usis-software.com/images/usis.icon.64x64.png</iconUrl>
+    <projectUrl>https://github.com/usis-software/usis.Data.LocalDb</projectUrl>
+    <iconUrl>https://www.usis-software.com/images/usis.icon.64x64.png</iconUrl>
     <licenseUrl>https://help.usis-software.com/LocalDB/media/MIT-License.md</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
@@ -15,7 +15,7 @@
       The usis LocalDB Class Library provides a .NET wrapper for the SQL Server Express LocalDB Instance APIs.
     </summary>
     <releaseNotes>
-      This is the initial release.
+      Next Release: usis.Data.LocalDb.InstanceInfo now implements IEquatable&lt;InstanceInfo&gt;; usis.Data.LocalDb.VersionInfo now implements IEquatable&lt;VersionInfo&gt;; Code cleanup and simplification; Sample code in documentation.
     </releaseNotes>
     <copyright>$copyright$</copyright>
     <tags>usis SQL Server Express LocalDB Interop API</tags>
