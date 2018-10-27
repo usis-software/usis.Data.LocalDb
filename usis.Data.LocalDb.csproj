@@ -64,6 +64,7 @@
     <Compile Include="VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AllRules.ruleset" />
     <None Include="LICENSE.md" />
     <None Include="README.md" />
     <None Include="usis.Data.LocalDb.nuspec" />
