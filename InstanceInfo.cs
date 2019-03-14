@@ -2,10 +2,10 @@
 //  @(#) InstanceInfo.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2017
+//  System:     Microsoft Visual Studio 2019
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018 usis GmbH. All rights reserved.
+//  Copyright (c) 2018,2019 usis GmbH. All rights reserved.
 
 using System;
 using System.Text;
@@ -163,6 +163,25 @@ namespace usis.Data.LocalDb
 
         public override string ToString() => Name;
 
+        //  -------------
+        //  Equals method
+        //  -------------
+
+        /// <summary>Determines whether the specified <see cref="object"/>, is equal to this instance.</summary>
+        /// <param name="obj">The <see cref="object"/> to compare with this instance.</param>
+        /// <returns><c>true</c> if the specified <see cref="object"/> is equal to this instance; otherwise, <c>false</c>.</returns>
+
+        public override bool Equals(object obj) => IsEqualTo(obj as InstanceInfo);
+
+        //  ------------------
+        //  GetHashCode method
+        //  ------------------
+
+        /// <summary>Returns a hash code for this instance.</summary>
+        /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
+
+        public override int GetHashCode() => Name.GetHashCode();
+
         #endregion overrides
 
         #region IEquatable<InstanceInfo> implementation
@@ -171,9 +190,15 @@ namespace usis.Data.LocalDb
         //  Equals method
         //  -------------
 
-        bool IEquatable<InstanceInfo>.Equals(InstanceInfo other) => other == null ? false : Name.Equals(other.Name, StringComparison.Ordinal);
+        bool IEquatable<InstanceInfo>.Equals(InstanceInfo other) => IsEqualTo(other);
 
         #endregion IEquatable<InstanceInfo> implementation
+
+        #region private methods
+
+        private bool IsEqualTo(InstanceInfo other) => other == null ? false : Name.Equals(other.Name, StringComparison.Ordinal);
+
+        #endregion private methods
     }
 }
 

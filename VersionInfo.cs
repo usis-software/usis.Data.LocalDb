@@ -2,10 +2,10 @@
 //  @(#) VersionInfo.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2017
+//  System:     Microsoft Visual Studio 2019
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018 usis GmbH. All rights reserved.
+//  Copyright (c) 2018,2019 usis GmbH. All rights reserved.
 
 using System;
 using System.Text;
@@ -83,6 +83,25 @@ namespace usis.Data.LocalDb
 
         public override string ToString() => Name;
 
+        //  -------------
+        //  Equals method
+        //  -------------
+
+        /// <summary>Determines whether the specified <see cref="object"/>, is equal to this instance.</summary>
+        /// <param name="obj">The <see cref="object"/> to compare with this instance.</param>
+        /// <returns><c>true</c> if the specified <see cref="object"/> is equal to this instance; otherwise, <c>false</c>.</returns>
+
+        public override bool Equals(object obj) => IsEqualTo(obj as VersionInfo);
+
+        //  ------------------
+        //  GetHashCode method
+        //  ------------------
+
+        /// <summary>Returns a hash code for this instance.</summary>
+        /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
+
+        public override int GetHashCode() => Version.GetHashCode();
+
         #endregion overrides
 
         #region IEquatable<VersionInfo> implementation
@@ -91,9 +110,19 @@ namespace usis.Data.LocalDb
         //  Equals method
         //  -------------
 
-        bool IEquatable<VersionInfo>.Equals(VersionInfo other) => other == null ? false : Version.Equals(other.Version);
+        bool IEquatable<VersionInfo>.Equals(VersionInfo other) => IsEqualTo(other);
 
         #endregion IEquatable<VersionInfo> implementation
+
+        #region private methods
+
+        //  ----------------
+        //  IsEqualTo method
+        //  ----------------
+
+        private bool IsEqualTo(VersionInfo other) => other == null ? false : Version.Equals(other.Version);
+
+        #endregion private methods
     }
 }
 
