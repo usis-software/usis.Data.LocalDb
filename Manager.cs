@@ -2,10 +2,10 @@
 //  @(#) Manager.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2017
+//  System:     Microsoft Visual Studio 2019
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018 usis GmbH. All rights reserved.
+//  Copyright (c) 2018,2019 usis GmbH. All rights reserved.
 
 using System;
 using System.Globalization;
@@ -171,8 +171,10 @@ namespace usis.Data.LocalDb
                 var pVersions = Marshal.AllocHGlobal(size * count);
                 try
                 {
-                    ValidateHResult(function(pVersions, ref count));
-                    return pVersions.Enumerate(count, size, ptr => Marshal.PtrToStringAuto(ptr)).ToArray();
+                    if (ValidateHResult(function(pVersions, ref count)))
+                    {
+                        return pVersions.Enumerate(count, size, ptr => Marshal.PtrToStringAuto(ptr)).ToArray();
+                    }
                 }
                 finally
                 {
@@ -198,9 +200,8 @@ namespace usis.Data.LocalDb
         public VersionInfo GetVersionInfo(string version)
         {
             var info = new LocalDBVersionInfo();
-            ValidateHResult(library.GetFunction(nameof(LocalDBGetVersionInfo), ref localDBGetVersionInfo)(
-                version, out info, Marshal.SizeOf(typeof(LocalDBVersionInfo))));
-            return new VersionInfo(info);
+            var hr = library.GetFunction(nameof(LocalDBGetVersionInfo), ref localDBGetVersionInfo)(version, out info, Marshal.SizeOf(typeof(LocalDBVersionInfo)));
+            return ValidateHResult(hr) ? new VersionInfo(info) : null;
         }
 
         //  -------------------
@@ -244,8 +245,10 @@ namespace usis.Data.LocalDb
                 var pVersions = Marshal.AllocHGlobal(size * count);
                 try
                 {
-                    ValidateHResult(function(pVersions, ref count));
-                    return pVersions.Enumerate(count, size, ptr => Marshal.PtrToStringAuto(ptr)).ToArray();
+                    if (ValidateHResult(function(pVersions, ref count)))
+                    {
+                        return pVersions.Enumerate(count, size, ptr => Marshal.PtrToStringAuto(ptr)).ToArray();
+                    }
                 }
                 finally
                 {
@@ -271,9 +274,8 @@ namespace usis.Data.LocalDb
         public InstanceInfo GetInstanceInfo(string instanceName)
         {
             var info = new LocalDBInstanceInfo();
-            ValidateHResult(library.GetFunction(nameof(LocalDBGetInstanceInfo), ref localDBGetInstanceInfo)(
-                instanceName, out info, Marshal.SizeOf(typeof(LocalDBInstanceInfo))));
-            return new InstanceInfo(info);
+            var hr = library.GetFunction(nameof(LocalDBGetInstanceInfo), ref localDBGetInstanceInfo)(instanceName, out info, Marshal.SizeOf(typeof(LocalDBInstanceInfo)));
+            return ValidateHResult(hr) ? new InstanceInfo(info) : null;
         }
 
         //  ---------------------
@@ -286,11 +288,7 @@ namespace usis.Data.LocalDb
         /// <param name="version">The LocalDB version, for example <c>11.0</c> or <c>11.0.1094.2</c>.</param>
         /// <param name="instanceName">The name for the LocalDB instance to create.</param>
 
-        public void CreateInstance(string version, string instanceName)
-        {
-            ValidateHResult(library.GetFunction(nameof(LocalDBCreateInstance), ref localDBCreateInstance)(
-                version, instanceName, 0));
-        }
+        public void CreateInstance(string version, string instanceName) => _ = ValidateHResult(library.GetFunction(nameof(LocalDBCreateInstance), ref localDBCreateInstance)(version, instanceName, 0));
 
         //  ---------------------
         //  DeleteInstance method
@@ -317,9 +315,8 @@ namespace usis.Data.LocalDb
         {
             var size = Constants.LOCALDB_MAX_SQLCONNECTION_BUFFER_SIZE + 1;
             var buffer = new StringBuilder(size);
-            ValidateHResult(library.GetFunction(nameof(LocalDBStartInstance), ref localDBStartInstance)(
-                instanceName, 0, buffer, ref size));
-            return buffer.ToString();
+            var hr = library.GetFunction(nameof(LocalDBStartInstance), ref localDBStartInstance)(instanceName, 0, buffer, ref size);
+            return ValidateHResult(hr) ? buffer.ToString() : null;
         }
 
         //  -------------------
@@ -340,8 +337,8 @@ namespace usis.Data.LocalDb
         {
             // if timeout is 0, the function returns immediately with an error code
             var t = Convert.ToUInt32(timeout.TotalSeconds);
-            ValidateHResult(library.GetFunction(nameof(LocalDBStopInstance), ref localDBStopInstance)(
-                instanceName, (uint)options, t), t == 0 ? Constants.LOCALDB_ERROR_WAIT_TIMEOUT : 0);
+            var hr = library.GetFunction(nameof(LocalDBStopInstance), ref localDBStopInstance)(instanceName, (uint)options, t);
+            _ = ValidateHResult(hr, t == 0 ? Constants.LOCALDB_ERROR_WAIT_TIMEOUT : 0);
         }
 
         //  --------------------
@@ -365,9 +362,8 @@ namespace usis.Data.LocalDb
             try
             {
                 Marshal.Copy(bytes, 0, ownerSID, bytes.Length);
-
-                ValidateHResult(library.GetFunction(nameof(LocalDBShareInstance), ref localDBShareInstance)(
-                    ownerSID, instancePrivateName, instanceSharedName, 0));
+                var hr = library.GetFunction(nameof(LocalDBShareInstance), ref localDBShareInstance)(ownerSID, instancePrivateName, instanceSharedName, 0);
+                _ = ValidateHResult(hr);
             }
             finally
             {
