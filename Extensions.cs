@@ -2,10 +2,10 @@
 //  @(#) Extensions.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2017
+//  System:     Microsoft Visual Studio 2019
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018 usis GmbH. All rights reserved.
+//  Copyright (c) 2018,2019 usis GmbH. All rights reserved.
 
 using System;
 using System.Collections.Generic;
@@ -33,14 +33,15 @@ namespace usis.Data.LocalDb
         //  ------------------------
 
         /// <summary>
-        /// Returns all SQL Server Express LocalDB versions available on the computer.
+        /// Returns all SQL Server Express LocalDB versions available on the
+        /// computer.
         /// </summary>
         /// <param name="manager">The LocalDB manager object.</param>
-        /// <returns>
-        /// An enumerator to iterate through all version informations.
-        /// </returns>
-        /// <example>
-        /// <code>
+        /// <returns>An enumerator to iterate through all version informations.
+        ///     </returns>
+
+        ///<example>
+        ///<code>
         ///using System;
         ///
         ///namespace usis.Data.LocalDb.Samples
@@ -79,7 +80,7 @@ namespace usis.Data.LocalDb
         ///    }
         ///}
         /// </code>
-        /// </example>
+        ///</example>
 
         public static IEnumerable<VersionInfo> EnumerateVersions(this Manager manager)
         {
@@ -96,12 +97,12 @@ namespace usis.Data.LocalDb
         //  --------------------------
 
         /// <summary>
-        /// Gets the informations about both named and default LocalDB instances on the user’s workstation.
+        /// Gets the informations about both named and default LocalDB instances
+        /// on the user’s workstation.
         /// </summary>
         /// <param name="manager">The LocalDB manager object.</param>
-        /// <returns>
-        /// An enumerator to iterate through all instance informations.
-        /// </returns>
+        /// <returns>An enumerator to iterate through all instance informations.
+        ///     </returns>
 
         public static IEnumerable<InstanceInfo> EnumerateInstances(this Manager manager)
         {
@@ -118,12 +119,16 @@ namespace usis.Data.LocalDb
         //  ---------------------
 
         /// <summary>
-        /// Creates a new SQL Server Express LocalDB instance
-        /// with the highest installed version.
+        /// Creates a new SQL Server Express LocalDB instance with the highest
+        /// installed version.
         /// </summary>
         /// <param name="manager">The LocalDB manager object.</param>
-        /// <param name="instanceName">The name for the LocalDB instance to create.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="manager"/> is a <c>null</c> reference.</exception>
+        /// <param name="instanceName">The name for the LocalDB instance to
+        ///     create.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="manager"/>
+        ///     is a <c>null</c> reference.</exception>
+        /// <exception cref="LocalDbException">SQL Server Express LocalDB is not
+        ///     installed on the computer.</exception>
 
         public static void CreateInstance(this Manager manager, string instanceName)
         {
@@ -142,14 +147,18 @@ namespace usis.Data.LocalDb
         //  -------------------
 
         /// <summary>
-        /// Stops the specified SQL Server Express LocalDB instance from running.
+        /// Stops the specified SQL Server Express LocalDB instance from
+        /// running.
         /// </summary>
         /// <param name="manager">The LocalDB manager object.</param>
-        /// <param name="instanceName">The name of the LocalDB instance to stop.</param>
+        /// <param name="instanceName">The name of the LocalDB instance to stop.
+        ///     </param>
         /// <remarks>
-        /// This function will return immediately without waiting for the LocalDB instance to stop.
+        /// This function will return immediately without waiting for the
+        /// LocalDB instance to stop.
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="manager"/> is a <c>null</c> reference.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="manager"/>
+        ///     is a <c>null</c> reference.</exception>
 
         public static void StopInstance(this Manager manager, string instanceName)
         {
@@ -158,15 +167,18 @@ namespace usis.Data.LocalDb
         }
 
         /// <summary>
-        /// Stops the specified SQL Server Express LocalDB instance from running.
+        /// Stops the specified SQL Server Express LocalDB instance from
+        /// running.
         /// </summary>
         /// <param name="manager">The LocalDB manager object.</param>
-        /// <param name="instanceName">The name of the LocalDB instance to stop.</param>
-        /// <param name="timeout">
-        /// The time in seconds to wait for this operation to complete.
-        /// If this value is 0, this function will return immediately without waiting for the LocalDB instance to stop.
-        /// </param>
-        /// <exception cref="ArgumentNullException"><paramref name="manager"/> is a <c>null</c> reference.</exception>
+        /// <param name="instanceName">The name of the LocalDB instance to stop.
+        ///     </param>
+        /// <param name="timeout">The time in seconds to wait for this operation
+        ///     to complete. If this value is 0, this function will return
+        ///     immediately without waiting for the LocalDB instance to stop.
+        ///     </param>
+        /// <exception cref="ArgumentNullException"><paramref name="manager"/>
+        ///     is a <c>null</c> reference.</exception>
 
         public static void StopInstance(this Manager manager, string instanceName, int timeout)
         {

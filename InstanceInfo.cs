@@ -60,16 +60,19 @@ namespace usis.Data.LocalDb
         /// Gets a value indicating whether the instance files exist on disk.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if the instance files exist on disk; otherwise, <c>false</c>.
+        /// <c>true</c> if the instance files exist on disk; otherwise,
+        /// <c>false</c>.
         /// </value>
 
         public bool Exists { get; }
 
         /// <summary>
-        /// Gets a value indicating whether the instance configuration registry is corrupted.
+        /// Gets a value indicating whether the instance configuration registry
+        /// is corrupted.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if the instance configuration registry is corrupted; otherwise, <c>false</c>.
+        /// <c>true</c> if the instance configuration registry is corrupted;
+        /// otherwise, <c>false</c>.
         /// </value>
 
         public bool ConfigurationCorrupted { get; }
@@ -78,7 +81,7 @@ namespace usis.Data.LocalDb
         /// Gets a value indicating whether this instance is running.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this instance is running; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance is running; otherwise, <c>false</c>.
         /// </value>
 
         public bool IsRunning { get; }
@@ -93,7 +96,8 @@ namespace usis.Data.LocalDb
         public Version Version { get; }
 
         /// <summary>
-        /// Gets the date and time when the instance was started for the last time.
+        /// Gets the date and time when the instance was started for the last
+        /// time.
         /// </summary>
         /// <value>
         /// The date and time when the instance was started for the last time.
@@ -114,7 +118,7 @@ namespace usis.Data.LocalDb
         /// Gets a value indicating whether this instance is shared.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this instance is shared; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance is shared; otherwise, <c>false</c>.
         /// </value>
 
         public bool IsShared { get; }
@@ -123,7 +127,8 @@ namespace usis.Data.LocalDb
         /// Gets the shared name for the instance (if the instance is shared).
         /// </summary>
         /// <value>
-        /// The shared name for the instance or <c>null</c> if the instance is not shared.
+        /// The shared name for the instance or <c>null</c> if the instance is
+        /// not shared.
         /// </value>
 
         public string SharedInstanceName { get; }
@@ -141,7 +146,7 @@ namespace usis.Data.LocalDb
         /// Gets a value indicating whether this instance is automatic.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this instance is automatic; otherwise, <c>false</c>.
+        /// <c>true</c> if this instance is automatic; otherwise, <c>false</c>.
         /// </value>
 
         public bool IsAutomatic { get; }
@@ -155,11 +160,10 @@ namespace usis.Data.LocalDb
         //  ---------------
 
         /// <summary>
-        /// Returns a <see cref="string" /> that represents this instance.
+        /// Returns a <see cref="string"/> that represents this instance.
         /// </summary>
-        /// <returns>
-        /// A <see cref="string" /> that represents this instance.
-        /// </returns>
+        /// <returns>A <see cref="string"/> that represents this instance.
+        ///     </returns>
 
         public override string ToString() => Name;
 
@@ -167,9 +171,14 @@ namespace usis.Data.LocalDb
         //  Equals method
         //  -------------
 
-        /// <summary>Determines whether the specified <see cref="object"/>, is equal to this instance.</summary>
-        /// <param name="obj">The <see cref="object"/> to compare with this instance.</param>
-        /// <returns><c>true</c> if the specified <see cref="object"/> is equal to this instance; otherwise, <c>false</c>.</returns>
+        /// <summary>
+        /// Determines whether the specified <see cref="object"/>, is equal to
+        /// this instance.
+        /// </summary>
+        /// <param name="obj">The <see cref="object"/> to compare with this
+        ///     instance.</param>
+        /// <returns><c>true</c> if the specified <see cref="object"/> is equal
+        ///     to this instance; otherwise, <c>false</c>.</returns>
 
         public override bool Equals(object obj) => IsEqualTo(obj as InstanceInfo);
 
@@ -177,8 +186,11 @@ namespace usis.Data.LocalDb
         //  GetHashCode method
         //  ------------------
 
-        /// <summary>Returns a hash code for this instance.</summary>
-        /// <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
+        /// <summary>
+        /// Returns a hash code for this instance.
+        /// </summary>
+        /// <returns>A hash code for this instance, suitable for use in hashing
+        ///     algorithms and data structures like a hash table.</returns>
 
         public override int GetHashCode() => Name.GetHashCode();
 
@@ -195,6 +207,10 @@ namespace usis.Data.LocalDb
         #endregion IEquatable<InstanceInfo> implementation
 
         #region private methods
+
+        //  ----------------
+        //  IsEqualTo method
+        //  ----------------
 
         private bool IsEqualTo(InstanceInfo other) => other == null ? false : Name.Equals(other.Name, StringComparison.Ordinal);
 

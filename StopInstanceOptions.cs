@@ -2,10 +2,10 @@
 //  @(#) StopInstanceOptions.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2017
+//  System:     Microsoft Visual Studio 2019
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018 usis GmbH. All rights reserved.
+//  Copyright (c) 2018,2019 usis GmbH. All rights reserved.
 
 using System;
 
@@ -29,7 +29,8 @@ namespace usis.Data.LocalDb
         None = 0x0,
 
         /// <summary>
-        /// Shut down immediately using the kill process operating system command.
+        /// Shut down immediately using the kill process operating system
+        /// command.
         /// </summary>
 
         ShutdownKillProcess = 0x1,

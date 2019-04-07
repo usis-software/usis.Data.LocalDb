@@ -2,14 +2,14 @@
 //  @(#) InstalledVersions.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2017
+//  System:     Microsoft Visual Studio 2019
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018 usis GmbH. All rights reserved.
+//  Copyright (c) 2018,2019 usis GmbH. All rights reserved.
 
-using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using Microsoft.Win32;
 
 namespace usis.Data.LocalDb
 {

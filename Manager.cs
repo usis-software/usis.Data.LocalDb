@@ -23,7 +23,7 @@ namespace usis.Data.LocalDb
     /// <summary>
     /// Provides methods to manage LocalDB instances.
     /// </summary>
-    /// <seealso cref="IDisposable" />
+    /// <seealso cref="IDisposable"/>
 
     public sealed class Manager : IDisposable
     {
@@ -112,7 +112,8 @@ namespace usis.Data.LocalDb
         //  --------------
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// Performs application-defined tasks associated with freeing,
+        /// releasing, or resetting unmanaged resources.
         /// </summary>
 
         public void Dispose() => library.Dispose();
@@ -126,11 +127,11 @@ namespace usis.Data.LocalDb
         //  ------------------
 
         /// <summary>
-        /// Determines whether SQL Server Express LocalDB is installed on the computer.
+        /// Determines whether SQL Server Express LocalDB is installed on the
+        /// computer.
         /// </summary>
-        /// <returns>
-        ///   <c>true</c> if SQL Server Express LocalDB is installed on the computer; otherwise, <c>false</c>.
-        /// </returns>
+        /// <returns><c>true</c> if SQL Server Express LocalDB is installed on
+        ///     the computer; otherwise, <c>false</c>.</returns>
 
         public static bool IsInstalled() => InstalledVersions.FromRegistry().Count > 0;
 
@@ -141,7 +142,8 @@ namespace usis.Data.LocalDb
         /// <summary>
         /// Creates a new instance of the <see cref="Manager"/> class.
         /// </summary>
-        /// <returns>A newly created instance of the <see cref="Manager"/> class.</returns>
+        /// <returns>A newly created instance of the <see cref="Manager"/>
+        ///     class.</returns>
 
         public static Manager Create()
         {
@@ -155,11 +157,11 @@ namespace usis.Data.LocalDb
         //  ------------------
 
         /// <summary>
-        /// Returns all SQL Server Express LocalDB versions available on the computer.
+        /// Returns all SQL Server Express LocalDB versions available on the
+        /// computer.
         /// </summary>
-        /// <returns>
-        /// An array that contains the names of the LocalDB versions that are available on the user’s workstation.
-        /// </returns>
+        /// <returns>An array that contains the names of the LocalDB versions
+        ///     that are available on the user’s workstation.</returns>
 
         public string[] GetVersions()
         {
@@ -189,13 +191,13 @@ namespace usis.Data.LocalDb
         //  ---------------------
 
         /// <summary>
-        /// Gets information for the specified SQL Server Express LocalDB version,
-        /// such as whether it exists and the full LocalDB version number (including build and release numbers).
+        /// Gets information for the specified SQL Server Express LocalDB
+        /// version, such as whether it exists and the full LocalDB version
+        /// number (including build and release numbers).
         /// </summary>
         /// <param name="version">The LocalDB version name.</param>
-        /// <returns>
-        /// The information about the specified LocalDB version.
-        /// </returns>
+        /// <returns>The information about the specified LocalDB version.
+        ///     </returns>
 
         public VersionInfo GetVersionInfo(string version)
         {
@@ -208,12 +210,13 @@ namespace usis.Data.LocalDb
         //  GetInstances method
         //  -------------------
 
-        /// <summary>
-        /// Gets the names of both named and default LocalDB instances on the user’s workstation.
-        /// </summary>
-        /// <returns>
-        /// An array that contains the names of both named and default LocalDB instances on the user’s workstation.
-        /// </returns>
+        ///<summary>
+        ///Gets the names of both named and default LocalDB instances on the
+        ///user’s workstation.
+        ///</summary>
+        ///<returns>An array that contains the names of both named and default
+        ///    LocalDB instances on the user’s workstation.</returns>
+
         /// <example>
         ///using System;
         ///
@@ -242,17 +245,17 @@ namespace usis.Data.LocalDb
             if (!ValidateHResult(function(IntPtr.Zero, ref count), Constants.LOCALDB_ERROR_INSUFFICIENT_BUFFER))
             {
                 var size = (Constants.MAX_LOCALDB_INSTANCE_NAME_LENGTH + 1) * sizeof(char);
-                var pVersions = Marshal.AllocHGlobal(size * count);
+                var pInstances = Marshal.AllocHGlobal(size * count);
                 try
                 {
-                    if (ValidateHResult(function(pVersions, ref count)))
+                    if (ValidateHResult(function(pInstances, ref count)))
                     {
-                        return pVersions.Enumerate(count, size, ptr => Marshal.PtrToStringAuto(ptr)).ToArray();
+                        return pInstances.Enumerate(count, size, ptr => Marshal.PtrToStringAuto(ptr)).ToArray();
                     }
                 }
                 finally
                 {
-                    Marshal.FreeHGlobal(pVersions);
+                    Marshal.FreeHGlobal(pInstances);
                 }
             }
             return new string[0];
@@ -263,13 +266,13 @@ namespace usis.Data.LocalDb
         //  ----------------------
 
         /// <summary>
-        /// Gets information for the specified SQL Server Express LocalDB instance,
-        /// such as whether it exists, the LocalDB version it uses, whether it is running, and so on.
+        /// Gets information for the specified SQL Server Express LocalDB
+        /// instance, such as whether it exists, the LocalDB version it uses,
+        /// whether it is running, and so on.
         /// </summary>
         /// <param name="instanceName">Name of the instance.</param>
-        /// <returns>
-        /// The information about the specified LocalDB instance.
-        /// </returns>
+        /// <returns>The information about the specified LocalDB instance.
+        ///     </returns>
 
         public InstanceInfo GetInstanceInfo(string instanceName)
         {
@@ -285,8 +288,10 @@ namespace usis.Data.LocalDb
         /// <summary>
         /// Creates a new SQL Server Express LocalDB instance.
         /// </summary>
-        /// <param name="version">The LocalDB version, for example <c>11.0</c> or <c>11.0.1094.2</c>.</param>
-        /// <param name="instanceName">The name for the LocalDB instance to create.</param>
+        /// <param name="version">The LocalDB version, for example <c>11.0</c>
+        ///     or <c>11.0.1094.2</c>.</param>
+        /// <param name="instanceName">The name for the LocalDB instance to
+        ///     create.</param>
 
         public void CreateInstance(string version, string instanceName) => _ = ValidateHResult(library.GetFunction(nameof(LocalDBCreateInstance), ref localDBCreateInstance)(version, instanceName, 0));
 
@@ -297,7 +302,8 @@ namespace usis.Data.LocalDb
         /// <summary>
         /// Removes the specified SQL Server Express LocalDB instance.
         /// </summary>
-        /// <param name="instanceName">The name of the LocalDB instance to remove.</param>
+        /// <param name="instanceName">The name of the LocalDB instance to
+        ///     remove.</param>
 
         public void DeleteInstance(string instanceName) => ValidateHResult(library.GetFunction(nameof(LocalDBDeleteInstance), ref localDBDeleteInstance)(instanceName, 0));
 
@@ -308,8 +314,10 @@ namespace usis.Data.LocalDb
         /// <summary>
         /// Starts the specified SQL Server Express LocalDB instance.
         /// </summary>
-        /// <param name="instanceName">The name of the LocalDB instance to start.</param>
-        /// <returns>The name of the TDS named pipe to connect to the instance.</returns>
+        /// <param name="instanceName">The name of the LocalDB instance to
+        ///     start.</param>
+        /// <returns>The name of the TDS named pipe to connect to the instance.
+        ///     </returns>
 
         public string StartInstance(string instanceName)
         {
@@ -324,14 +332,17 @@ namespace usis.Data.LocalDb
         //  -------------------
 
         /// <summary>
-        /// Stops the specified SQL Server Express LocalDB instance from running.
+        /// Stops the specified SQL Server Express LocalDB instance from
+        /// running.
         /// </summary>
-        /// <param name="instanceName">The name of the LocalDB instance to stop.</param>
-        /// <param name="options">One or a combination of the option values specifying the way to stop the instance.</param>
-        /// <param name="timeout">
-        /// The time to wait for this operation to complete.
-        /// If this value is 0, this function will return immediately without waiting for the LocalDB instance to stop.
-        /// </param>
+        /// <param name="instanceName">The name of the LocalDB instance to stop.
+        ///     </param>
+        /// <param name="options">One or a combination of the option values
+        ///     specifying the way to stop the instance.</param>
+        /// <param name="timeout">The time to wait for this operation to
+        ///     complete. If this value is <c>0</c>, this function will return
+        ///     immediately without waiting for the LocalDB instance to stop.
+        ///     </param>
 
         public void StopInstance(string instanceName, StopInstanceOptions options, TimeSpan timeout)
         {
@@ -346,11 +357,14 @@ namespace usis.Data.LocalDb
         //  --------------------
 
         /// <summary>
-        /// Shares the specified SQL Server Express LocalDB instance with other users of the computer, using the specified shared name.
+        /// Shares the specified SQL Server Express LocalDB instance with other
+        /// users of the computer, using the specified shared name.
         /// </summary>
         /// <param name="owner">The SID of the instance owner.</param>
-        /// <param name="instancePrivateName">The private name for the LocalDB instance to share.</param>
-        /// <param name="instanceSharedName">The shared name for the LocalDB instance to share.</param>
+        /// <param name="instancePrivateName">The private name for the LocalDB
+        ///     instance to share.</param>
+        /// <param name="instanceSharedName">The shared name for the LocalDB
+        ///     instance to share.</param>
 
         public void ShareInstance(string owner, string instancePrivateName, string instanceSharedName)
         {
@@ -376,9 +390,11 @@ namespace usis.Data.LocalDb
         //  ----------------------
 
         /// <summary>
-        /// Stops the sharing of the specified SQL Server Express LocalDB instance.
+        /// Stops the sharing of the specified SQL Server Express LocalDB
+        /// instance.
         /// </summary>
-        /// <param name="instanceName">The shared name for the LocalDB instance to unshare.</param>
+        /// <param name="instanceName">The shared name for the LocalDB instance
+        ///     to unshare.</param>
 
         public void UnshareInstance(string instanceName) => ValidateHResult(library.GetFunction(nameof(LocalDBUnshareInstance), ref localDBUnshareInstance)(instanceName, 0));
 
@@ -387,7 +403,8 @@ namespace usis.Data.LocalDb
         //  -------------------
 
         /// <summary>
-        /// Enables tracing of API calls for all the SQL Server Express LocalDB instances owned by the current Windows user.
+        /// Enables tracing of API calls for all the SQL Server Express LocalDB
+        /// instances owned by the current Windows user.
         /// </summary>
 
         public void StartTracing() => ValidateHResult(library.GetFunction(nameof(LocalDBStartTracing), ref localDBStartTracing)());
@@ -397,7 +414,8 @@ namespace usis.Data.LocalDb
         //  ------------------
 
         /// <summary>
-        /// Disables tracing of API calls for all the SQL Server Express LocalDB instances owned by the current Windows user.
+        /// Disables tracing of API calls for all the SQL Server Express LocalDB
+        /// instances owned by the current Windows user.
         /// </summary>
 
         public void StopTracing() => ValidateHResult(library.GetFunction(nameof(LocalDBStopTracing), ref localDBStopTracing)());
