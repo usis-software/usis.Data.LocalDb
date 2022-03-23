@@ -14,9 +14,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>usis.Data.LocalDb</RootNamespace>
     <AssemblyName>usis.Data.LocalDb</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>

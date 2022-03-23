@@ -2,10 +2,10 @@
 //  @(#) Manager.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2019
+//  System:     Microsoft Visual Studio 2022
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018,2019 usis GmbH. All rights reserved.
+//  Copyright (c) 2018-2022 usis GmbH. All rights reserved.
 
 using System;
 using System.Globalization;
@@ -148,8 +148,7 @@ namespace usis.Data.LocalDb
         public static Manager Create()
         {
             var dictionary = InstalledVersions.FromRegistry();
-            if (dictionary.Count == 0) throw new LocalDbException(Strings.NotInstalled);
-            return new Manager(dictionary.LastOrDefault().Value);
+            return dictionary.Count == 0 ? throw new LocalDbException(Strings.NotInstalled) : new Manager(dictionary.LastOrDefault().Value);
         }
 
         //  ------------------
@@ -183,7 +182,7 @@ namespace usis.Data.LocalDb
                     Marshal.FreeHGlobal(pVersions);
                 }
             }
-            return new string[0];
+            return Array.Empty<string>();
         }
 
         //  ---------------------
@@ -258,7 +257,7 @@ namespace usis.Data.LocalDb
                     Marshal.FreeHGlobal(pInstances);
                 }
             }
-            return new string[0];
+            return Array.Empty<string>();
         }
 
         //  ----------------------
