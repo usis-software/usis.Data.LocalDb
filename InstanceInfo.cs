@@ -2,10 +2,10 @@
 //  @(#) InstanceInfo.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2019
+//  System:     Microsoft Visual Studio 2022
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018,2019 usis GmbH. All rights reserved.
+//  Copyright (c) 2018-2022 usis GmbH. All rights reserved.
 
 using System;
 using System.Text;
@@ -212,7 +212,7 @@ namespace usis.Data.LocalDb
         //  IsEqualTo method
         //  ----------------
 
-        private bool IsEqualTo(InstanceInfo other) => other == null ? false : Name.Equals(other.Name, StringComparison.Ordinal);
+        private bool IsEqualTo(InstanceInfo other) => other != null && Name.Equals(other.Name, StringComparison.Ordinal);
 
         #endregion private methods
     }

@@ -2,10 +2,10 @@
 //  @(#) Extensions.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2019
+//  System:     Microsoft Visual Studio 2022
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018,2019 usis GmbH. All rights reserved.
+//  Copyright (c) 2018-2022 usis GmbH. All rights reserved.
 
 using System;
 using System.Collections.Generic;
@@ -84,8 +84,9 @@ namespace usis.Data.LocalDb
 
         public static IEnumerable<VersionInfo> EnumerateVersions(this Manager manager)
         {
-            if (manager == null) throw new ArgumentNullException(nameof(manager));
-            return manager.GetVersions().Select(version => manager.GetVersionInfo(version));
+            return manager == null
+                ? throw new ArgumentNullException(nameof(manager))
+                : manager.GetVersions().Select(version => manager.GetVersionInfo(version));
         }
 
         #endregion EnumerateVersions method
@@ -106,8 +107,9 @@ namespace usis.Data.LocalDb
 
         public static IEnumerable<InstanceInfo> EnumerateInstances(this Manager manager)
         {
-            if (manager == null) throw new ArgumentNullException(nameof(manager));
-            return manager.GetInstances().Select(instance => manager.GetInstanceInfo(instance));
+            return manager == null
+                ? throw new ArgumentNullException(nameof(manager))
+                : manager.GetInstances().Select(instance => manager.GetInstanceInfo(instance));
         }
 
         #endregion EnumerateInstances methods
@@ -215,8 +217,7 @@ namespace usis.Data.LocalDb
             {
                 if (hr == ok) return (hr & 0x80000000) == 0;
             }
-            if ((hr & 0x80000000) != 0) throw createException(hr);
-            return true;
+            return (hr & 0x80000000) != 0 ? throw createException(hr) : true;
         }
 
         //  ----------------
@@ -227,7 +228,7 @@ namespace usis.Data.LocalDb
         {
             for (var i = 0; i < count; i++)
             {
-                var offset = new IntPtr(pointer.ToInt64() + size * i);
+                var offset = new IntPtr(pointer.ToInt64() + (size * i));
                 yield return function(offset);
             }
         }
