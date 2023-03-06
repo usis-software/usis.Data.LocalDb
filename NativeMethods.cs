@@ -43,13 +43,8 @@ namespace usis.Data.LocalDb
         //  GetProcAddress method
         //  ---------------------
 
-#pragma warning disable CA2101 // Specify marshaling for P/Invoke string arguments
-
         [DllImport(KernelFileName, SetLastError = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
         internal static extern IntPtr GetProcAddress(NativeLibraryHandle handle, [MarshalAs(UnmanagedType.LPStr)] string procName);
-
-#pragma warning restore CA2101 // Specify marshaling for P/Invoke string arguments
-
     }
 }
 

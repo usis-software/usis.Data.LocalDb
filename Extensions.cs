@@ -135,8 +135,7 @@ namespace usis.Data.LocalDb
         public static void CreateInstance(this Manager manager, string instanceName)
         {
             if (manager == null) throw new ArgumentNullException(nameof(manager));
-            var version = manager.GetVersions().OrderByDescending(s => s).FirstOrDefault();
-            if (version == null) throw new LocalDbException(Strings.NotInstalled);
+            var version = manager.GetVersions().OrderByDescending(s => s).FirstOrDefault() ?? throw new LocalDbException(Strings.NotInstalled);
             manager.CreateInstance(version, instanceName);
         }
 

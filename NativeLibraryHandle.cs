@@ -18,7 +18,7 @@ namespace usis.Data.LocalDb
     //  NativeLibraryHandle class
     //  -------------------------
 
-    internal class NativeLibraryHandle : SafeHandleZeroOrMinusOneIsInvalid
+    internal sealed class NativeLibraryHandle : SafeHandleZeroOrMinusOneIsInvalid
     {
         #region construction
 
