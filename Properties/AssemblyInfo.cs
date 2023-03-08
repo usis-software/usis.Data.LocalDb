@@ -2,10 +2,10 @@
 //  @(#) AssemblyInfo.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2017
+//  System:     Microsoft Visual Studio 2022
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018 usis GmbH. All rights reserved.
+//  Copyright (c) 2018-2023 usis GmbH. All rights reserved.
 
 using System;
 using System.Reflection;
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 #endif
 [assembly: AssemblyCompany("usis GmbH")]
 [assembly: AssemblyProduct("usis LocalDB Class Library")]
-[assembly: AssemblyCopyright("Copyright © 2018 usis GmbH")]
+[assembly: AssemblyCopyright("Copyright © 2018-2023 usis GmbH")]
 
 // The assembly is not visible to COM components.
 [assembly: ComVisible(false)]

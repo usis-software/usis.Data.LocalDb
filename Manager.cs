@@ -8,6 +8,7 @@
 //  Copyright (c) 2018-2022 usis GmbH. All rights reserved.
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -45,7 +46,7 @@ namespace usis.Data.LocalDb
         private LocalDBStartTracing localDBStartTracing;
         private LocalDBStopTracing localDBStopTracing;
 
-        #endregion fields
+        #endregion
 
         #region delegates
 
@@ -88,7 +89,7 @@ namespace usis.Data.LocalDb
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         internal delegate uint LocalDBStopTracing();
 
-        #endregion delegates
+        #endregion
 
         #region construction
 
@@ -103,7 +104,7 @@ namespace usis.Data.LocalDb
 
         private Manager(string path) => library = new NativeLibraryHandle(path);
 
-        #endregion construction
+        #endregion
 
         #region IDisposable implementation
 
@@ -118,7 +119,7 @@ namespace usis.Data.LocalDb
 
         public void Dispose() => library.Dispose();
 
-        #endregion IDisposable implementation
+        #endregion
 
         #region methods
 
@@ -209,12 +210,11 @@ namespace usis.Data.LocalDb
         //  GetInstances method
         //  -------------------
 
-        ///<summary>
-        ///Gets the names of both named and default LocalDB instances on the
-        ///user’s workstation.
-        ///</summary>
-        ///<returns>An array that contains the names of both named and default
-        ///    LocalDB instances on the user’s workstation.</returns>
+        /// <summary>
+        /// Gets the names of both named and default LocalDB instances on the
+        /// user’s workstation.
+        /// </summary>
+        /// <returns>An array that contains the names of both named and default LocalDB instances on the user’s workstation.</returns>
 
         /// <example>
         ///using System;
@@ -237,25 +237,31 @@ namespace usis.Data.LocalDb
         ///}
         /// </example>
 
-        public string[] GetInstances()
+        public string[] GetInstances(double timeout = 3000)
         {
             var function = library.GetFunction(nameof(LocalDBGetInstances), ref localDBGetInstances);
             var count = 0;
             if (!ValidateHResult(function(IntPtr.Zero, ref count), Constants.LOCALDB_ERROR_INSUFFICIENT_BUFFER))
             {
-                var size = (Constants.MAX_LOCALDB_INSTANCE_NAME_LENGTH + 1) * sizeof(char);
-                var pInstances = Marshal.AllocHGlobal(size * count);
-                try
+                var stopWatch = Stopwatch.StartNew();
+                do
                 {
-                    if (ValidateHResult(function(pInstances, ref count)))
+                    var size = (Constants.MAX_LOCALDB_INSTANCE_NAME_LENGTH + 1) * sizeof(char);
+                    var pInstances = Marshal.AllocHGlobal(size * count);
+                    try
                     {
-                        return pInstances.Enumerate(count, size, ptr => Marshal.PtrToStringAuto(ptr)).ToArray();
+                        if (ValidateHResult(function(pInstances, ref count), Constants.LOCALDB_ERROR_INSUFFICIENT_BUFFER))
+                        {
+                            return pInstances.Enumerate(count, size, ptr => Marshal.PtrToStringAuto(ptr)).ToArray();
+                        }
+                    }
+                    finally
+                    {
+                        Marshal.FreeHGlobal(pInstances);
                     }
                 }
-                finally
-                {
-                    Marshal.FreeHGlobal(pInstances);
-                }
+                while (stopWatch.Elapsed.TotalMilliseconds < timeout || double.IsInfinity(timeout));
+                throw new TimeoutException();
             }
             return Array.Empty<string>();
         }
@@ -472,9 +478,9 @@ namespace usis.Data.LocalDb
 
         private bool ValidateHResult(uint hr, params uint[] values) => hr.ValidateHResult(error => new LocalDbException(error, FormatMessage(hr, 0)), values);
 
-        #endregion private methods
+        #endregion
 
-        #endregion methods
+        #endregion
     }
 }
 
