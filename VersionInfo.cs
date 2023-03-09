@@ -5,7 +5,7 @@
 //  System:     Microsoft Visual Studio 2022
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018-2022 usis GmbH. All rights reserved.
+//  Copyright (c) 2018-2023 usis GmbH. All rights reserved.
 
 using System;
 using System.Text;
@@ -35,9 +35,13 @@ namespace usis.Data.LocalDb
             Version = new Version((int)info.Major, (int)info.Minor, (int)info.Build, (int)info.Revision);
         }
 
-        #endregion construction
+        #endregion
 
         #region properties
+
+        //  -------------
+        //  Name property
+        //  -------------
 
         /// <summary>
         /// Gets the LocalDB version name.
@@ -47,6 +51,10 @@ namespace usis.Data.LocalDb
         /// </value>
 
         public string Name { get; }
+
+        //  ---------------
+        //  Exists property
+        //  ---------------
 
         /// <summary>
         /// Gets a value indicating whether the instance files exist on disk.
@@ -58,6 +66,10 @@ namespace usis.Data.LocalDb
 
         public bool Exists { get; }
 
+        //  ----------------
+        //  Version property
+        //  ----------------
+
         /// <summary>
         /// Gets the LocalDB version for the instance.
         /// </summary>
@@ -67,7 +79,7 @@ namespace usis.Data.LocalDb
 
         public Version Version { get; }
 
-        #endregion properties
+        #endregion
 
         #region overrides
 
@@ -110,7 +122,7 @@ namespace usis.Data.LocalDb
 
         public override int GetHashCode() => Version.GetHashCode();
 
-        #endregion overrides
+        #endregion
 
         #region IEquatable<VersionInfo> implementation
 
@@ -120,7 +132,7 @@ namespace usis.Data.LocalDb
 
         bool IEquatable<VersionInfo>.Equals(VersionInfo other) => IsEqualTo(other);
 
-        #endregion IEquatable<VersionInfo> implementation
+        #endregion
 
         #region private methods
 
@@ -130,7 +142,7 @@ namespace usis.Data.LocalDb
 
         private bool IsEqualTo(VersionInfo other) => other != null && Version.Equals(other.Version);
 
-        #endregion private methods
+        #endregion
     }
 }
 

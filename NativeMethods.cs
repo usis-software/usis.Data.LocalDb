@@ -2,10 +2,10 @@
 //  @(#) SafeNativeMethods.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2017
+//  System:     Microsoft Visual Studio 2022
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018 usis GmbH. All rights reserved.
+//  Copyright (c) 2018-2023 usis GmbH. All rights reserved.
 
 using System;
 using System.Runtime.InteropServices;
@@ -22,7 +22,7 @@ namespace usis.Data.LocalDb
 
         private const string KernelFileName = "kernel32.dll";
 
-        #endregion constants
+        #endregion
 
         //  --------------------
         //  LoadLibraryEx method

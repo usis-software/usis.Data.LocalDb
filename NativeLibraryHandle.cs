@@ -2,10 +2,10 @@
 //  @(#) NativeLibraryHandle.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2019
+//  System:     Microsoft Visual Studio 2022
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018,2019 usis GmbH. All rights reserved.
+//  Copyright (c) 2018-2023 usis GmbH. All rights reserved.
 
 using System;
 using System.ComponentModel;
@@ -33,7 +33,7 @@ namespace usis.Data.LocalDb
             SetHandle(handle);
         }
 
-        #endregion construction
+        #endregion
 
         #region overrides
 
@@ -43,7 +43,7 @@ namespace usis.Data.LocalDb
 
         protected override bool ReleaseHandle() => NativeMethods.FreeLibrary(handle);
 
-        #endregion overrides
+        #endregion
     }
 }
 

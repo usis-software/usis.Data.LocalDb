@@ -5,7 +5,7 @@
 //  System:     Microsoft Visual Studio 2022
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018-2022 usis GmbH. All rights reserved.
+//  Copyright (c) 2018-2023 usis GmbH. All rights reserved.
 
 using System;
 using System.Diagnostics;
@@ -175,7 +175,7 @@ namespace usis.Data.LocalDb
                 {
                     if (ValidateHResult(function(pVersions, ref count)))
                     {
-                        return pVersions.Enumerate(count, size, ptr => Marshal.PtrToStringAuto(ptr)).ToArray();
+                        return pVersions.Enumerate(count, size, Marshal.PtrToStringAuto).ToArray();
                     }
                 }
                 finally
@@ -252,7 +252,7 @@ namespace usis.Data.LocalDb
                     {
                         if (ValidateHResult(function(pInstances, ref count), Constants.LOCALDB_ERROR_INSUFFICIENT_BUFFER))
                         {
-                            return pInstances.Enumerate(count, size, ptr => Marshal.PtrToStringAuto(ptr)).ToArray();
+                            return pInstances.Enumerate(count, size, Marshal.PtrToStringAuto).ToArray();
                         }
                     }
                     finally

@@ -5,7 +5,7 @@
 //  System:     Microsoft Visual Studio 2022
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018-2022 usis GmbH. All rights reserved.
+//  Copyright (c) 2018-2023 usis GmbH. All rights reserved.
 
 using System;
 using System.Text;
@@ -43,9 +43,13 @@ namespace usis.Data.LocalDb
             IsAutomatic = info.IsAutomatic;
         }
 
-        #endregion construction
+        #endregion
 
         #region properties
+
+        //  -------------
+        //  Name property
+        //  -------------
 
         /// <summary>
         /// Gets the instance name.
@@ -56,6 +60,10 @@ namespace usis.Data.LocalDb
 
         public string Name { get; }
 
+        //  ---------------
+        //  Exists property
+        //  ---------------
+
         /// <summary>
         /// Gets a value indicating whether the instance files exist on disk.
         /// </summary>
@@ -65,6 +73,10 @@ namespace usis.Data.LocalDb
         /// </value>
 
         public bool Exists { get; }
+
+        //  -------------------------------
+        //  ConfigurationCorrupted property
+        //  -------------------------------
 
         /// <summary>
         /// Gets a value indicating whether the instance configuration registry
@@ -77,6 +89,10 @@ namespace usis.Data.LocalDb
 
         public bool ConfigurationCorrupted { get; }
 
+        //  ------------------
+        //  IsRunning property
+        //  ------------------
+
         /// <summary>
         /// Gets a value indicating whether this instance is running.
         /// </summary>
@@ -86,6 +102,10 @@ namespace usis.Data.LocalDb
 
         public bool IsRunning { get; }
 
+        //  ----------------
+        //  Version property
+        //  ----------------
+
         /// <summary>
         /// Gets the LocalDB version for the instance.
         /// </summary>
@@ -94,6 +114,10 @@ namespace usis.Data.LocalDb
         /// </value>
 
         public Version Version { get; }
+
+        //  ------------------
+        //  LastStart property
+        //  ------------------
 
         /// <summary>
         /// Gets the date and time when the instance was started for the last
@@ -105,6 +129,10 @@ namespace usis.Data.LocalDb
 
         public DateTime LastStart { get; }
 
+        //  -------------------
+        //  Connection property
+        //  -------------------
+
         /// <summary>
         /// Gets the name of the TDS named pipe to connect to the instance.
         /// </summary>
@@ -114,6 +142,10 @@ namespace usis.Data.LocalDb
 
         public string Connection { get; }
 
+        //  -----------------
+        //  IsShared property
+        //  -----------------
+
         /// <summary>
         /// Gets a value indicating whether this instance is shared.
         /// </summary>
@@ -122,6 +154,10 @@ namespace usis.Data.LocalDb
         /// </value>
 
         public bool IsShared { get; }
+
+        //  ---------------------------
+        //  SharedInstanceName property
+        //  ---------------------------
 
         /// <summary>
         /// Gets the shared name for the instance (if the instance is shared).
@@ -133,6 +169,10 @@ namespace usis.Data.LocalDb
 
         public string SharedInstanceName { get; }
 
+        //  --------------
+        //  Owner property
+        //  --------------
+
         /// <summary>
         /// Gets the SID of the instance owner.
         /// </summary>
@@ -141,6 +181,10 @@ namespace usis.Data.LocalDb
         /// </value>
 
         public string Owner { get; }
+
+        //  --------------------
+        //  IsAutomatic property
+        //  --------------------
 
         /// <summary>
         /// Gets a value indicating whether this instance is automatic.
@@ -151,7 +195,7 @@ namespace usis.Data.LocalDb
 
         public bool IsAutomatic { get; }
 
-        #endregion properties
+        #endregion
 
         #region overrides
 
@@ -194,7 +238,7 @@ namespace usis.Data.LocalDb
 
         public override int GetHashCode() => Name.GetHashCode();
 
-        #endregion overrides
+        #endregion
 
         #region IEquatable<InstanceInfo> implementation
 
@@ -204,7 +248,7 @@ namespace usis.Data.LocalDb
 
         bool IEquatable<InstanceInfo>.Equals(InstanceInfo other) => IsEqualTo(other);
 
-        #endregion IEquatable<InstanceInfo> implementation
+        #endregion
 
         #region private methods
 
@@ -214,7 +258,7 @@ namespace usis.Data.LocalDb
 
         private bool IsEqualTo(InstanceInfo other) => other != null && Name.Equals(other.Name, StringComparison.Ordinal);
 
-        #endregion private methods
+        #endregion
     }
 }
 

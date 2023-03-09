@@ -2,10 +2,10 @@
 //  @(#) InstalledVersions.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2019
+//  System:     Microsoft Visual Studio 2022
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018,2019 usis GmbH. All rights reserved.
+//  Copyright (c) 2018-2023 usis GmbH. All rights reserved.
 
 using System;
 using System.Collections.Generic;
@@ -38,10 +38,8 @@ namespace usis.Data.LocalDb
         {
             ForEachName((parentKey, name) =>
             {
-                using (var versionKey = parentKey.OpenSubKey(name))
-                {
-                    action.Invoke(name, versionKey);
-                }
+                using var versionKey = parentKey.OpenSubKey(name);
+                action.Invoke(name, versionKey);
             });
         }
 
@@ -51,17 +49,13 @@ namespace usis.Data.LocalDb
 
         private static void ForEachName(Action<RegistryKey, string> action)
         {
-            using (var registryKey = Registry.LocalMachine.OpenSubKey(Constants.ProductRegistryKeyPath))
+            using var registryKey = Registry.LocalMachine.OpenSubKey(Constants.ProductRegistryKeyPath);
+            if (registryKey == null) return;
+            using var subKey = registryKey.OpenSubKey(Constants.RegistrySubKeyName);
+            if (subKey == null) return;
+            foreach (var name in subKey.GetSubKeyNames())
             {
-                if (registryKey == null) return;
-                using (var subKey = registryKey.OpenSubKey(Constants.RegistrySubKeyName))
-                {
-                    if (subKey == null) return;
-                    foreach (var name in subKey.GetSubKeyNames())
-                    {
-                        action.Invoke(subKey, name);
-                    }
-                }
+                action.Invoke(subKey, name);
             }
         }
     }

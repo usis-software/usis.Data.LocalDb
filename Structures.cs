@@ -2,10 +2,10 @@
 //  @(#) Structures.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2017
+//  System:     Microsoft Visual Studio 2022
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018 usis GmbH. All rights reserved.
+//  Copyright (c) 2018-2023 usis GmbH. All rights reserved.
 
 using System.Runtime.InteropServices;
 
@@ -37,7 +37,7 @@ namespace usis.Data.LocalDb
         internal uint Revision;
     }
 
-    #endregion LocalDBVersionInfo structure
+    #endregion
 
     #region LocalDBInstanceInfo structure
 
@@ -92,7 +92,7 @@ namespace usis.Data.LocalDb
         internal bool IsAutomatic;
     }
 
-    #endregion LocalDBInstanceInfo structure
+    #endregion
 }
 
 // eof "Structures.cs"

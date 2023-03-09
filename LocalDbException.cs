@@ -2,10 +2,10 @@
 //  @(#) LocalDbException.cs
 //
 //  Project:    usis.Data.LocalDb
-//  System:     Microsoft Visual Studio 2019
+//  System:     Microsoft Visual Studio 2022
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018,2019 usis GmbH. All rights reserved.
+//  Copyright (c) 2018-2023 usis GmbH. All rights reserved.
 
 using System;
 using System.ComponentModel;
@@ -69,7 +69,7 @@ namespace usis.Data.LocalDb
 
         internal LocalDbException(uint hr, string message) : base((int)hr, message) { }
 
-        #endregion construction
+        #endregion
     }
 }
 

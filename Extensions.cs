@@ -5,7 +5,7 @@
 //  System:     Microsoft Visual Studio 2022
 //  Author:     Udo Schäfer
 //
-//  Copyright (c) 2018-2022 usis GmbH. All rights reserved.
+//  Copyright (c) 2018-2023 usis GmbH. All rights reserved.
 
 using System;
 using System.Collections.Generic;
@@ -86,10 +86,10 @@ namespace usis.Data.LocalDb
         {
             return manager == null
                 ? throw new ArgumentNullException(nameof(manager))
-                : manager.GetVersions().Select(version => manager.GetVersionInfo(version));
+                : manager.GetVersions().Select(manager.GetVersionInfo);
         }
 
-        #endregion EnumerateVersions method
+        #endregion
 
         #region EnumerateInstances methods
 
@@ -109,10 +109,10 @@ namespace usis.Data.LocalDb
         {
             return manager == null
                 ? throw new ArgumentNullException(nameof(manager))
-                : manager.GetInstances().Select(instance => manager.GetInstanceInfo(instance));
+                : manager.GetInstances().Select(manager.GetInstanceInfo);
         }
 
-        #endregion EnumerateInstances methods
+        #endregion
 
         #region CreateInstance method
 
@@ -139,7 +139,7 @@ namespace usis.Data.LocalDb
             manager.CreateInstance(version, instanceName);
         }
 
-        #endregion CreateInstance method
+        #endregion
 
         #region StopInstance method
 
@@ -187,7 +187,7 @@ namespace usis.Data.LocalDb
             manager.StopInstance(instanceName, StopInstanceOptions.None, new TimeSpan(0, 0, timeout));
         }
 
-        #endregion StopInstance method
+        #endregion
 
         #region internal methods
 
@@ -236,7 +236,7 @@ namespace usis.Data.LocalDb
         //  ToString method
         //  ---------------
 
-        internal static string ToString(this byte[] bytes, Encoding encoding) => new string(encoding.GetChars(bytes).TakeWhile(c => c != '\0').ToArray());
+        internal static string ToString(this byte[] bytes, Encoding encoding) => new(encoding.GetChars(bytes).TakeWhile(c => c != '\0').ToArray());
 
         //  -----------------
         //  ToDateTime method
@@ -244,7 +244,7 @@ namespace usis.Data.LocalDb
 
         internal static DateTime ToDateTime(this System.Runtime.InteropServices.ComTypes.FILETIME fileTime) => DateTimeFromFileTime(fileTime.dwHighDateTime, fileTime.dwLowDateTime);
 
-        #endregion internal methods
+        #endregion
 
         #region private methods
 
@@ -260,7 +260,7 @@ namespace usis.Data.LocalDb
             return DateTime.FromFileTime(fileTime);
         }
 
-        #endregion private methods
+        #endregion
     }
 }
 
