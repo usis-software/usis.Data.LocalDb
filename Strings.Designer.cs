@@ -19,7 +19,7 @@ namespace usis.Data.LocalDb {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Strings {
@@ -79,7 +79,7 @@ namespace usis.Data.LocalDb {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to retrieve message for LocalDB error code 0x{0:x}: {1}.
+        ///   Looks up a localized string similar to LocalDB error 0x{0:x} occurred. Failed to retrieve message for LocalDB error code 0x{0:x}: {1}.
         /// </summary>
         internal static string FailedToRetrieveMessage {
             get {
@@ -120,6 +120,15 @@ namespace usis.Data.LocalDb {
         internal static string NotInstalled {
             get {
                 return ResourceManager.GetString("NotInstalled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unknown error occurred..
+        /// </summary>
+        internal static string UnknownError {
+            get {
+                return ResourceManager.GetString("UnknownError", resourceCulture);
             }
         }
         

@@ -124,7 +124,7 @@
     <value>Error code 0x{0:x}</value>
   </data>
   <data name="FailedToRetrieveMessage" xml:space="preserve">
-    <value>Failed to retrieve message for LocalDB error code 0x{0:x}: {1}</value>
+    <value>LocalDB error 0x{0:x} occurred. Failed to retrieve message for LocalDB error code 0x{0:x}: {1}</value>
   </data>
   <data name="InsufficientBuffer" xml:space="preserve">
     <value>The input buffer is too short, and truncation is not requested.</value>
@@ -137,6 +137,9 @@
   </data>
   <data name="NotInstalled" xml:space="preserve">
     <value>SQL Server Express LocalDB is not installed on the computer.</value>
+  </data>
+  <data name="UnknownError" xml:space="preserve">
+    <value>An unknown error occurred.</value>
   </data>
   <data name="UnknownErrorCode" xml:space="preserve">
     <value>The requested message does not exist (0x{0:x}).</value>

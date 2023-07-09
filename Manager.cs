@@ -445,31 +445,23 @@ namespace usis.Data.LocalDb
                 result = function(hr, flags, 0, builder, ref size);
                 if (result == 0) return builder.ToString();
             }
-            string message;
-            switch (result)
-            {
-                case Constants.LOCALDB_ERROR_NOT_INSTALLED:
-                    message = Strings.NotInstalled;
-                    break;
-                case Constants.LOCALDB_ERROR_INVALID_PARAMETER:
-                    message = Strings.InvalidParameter;
-                    break;
-                case Constants.LOCALDB_ERROR_UNKNOWN_ERROR_CODE:
-                    return string.Format(CultureInfo.CurrentCulture, Strings.UnknownErrorCode, hr);
-                case Constants.LOCALDB_ERROR_UNKNOWN_LANGUAGE_ID:
-                    message = Strings.UnknownLanguageId;
-                    break;
-                case Constants.LOCALDB_ERROR_INSUFFICIENT_BUFFER:
-                    message = Strings.InsufficientBuffer;
-                    break;
-                case Constants.LOCALDB_ERROR_INTERNAL_ERROR:
-                    message = Strings.InternalError;
-                    break;
-                default:
-                    message = string.Format(CultureInfo.CurrentCulture, Strings.ErrorCode, result);
-                    break;
-            }
+            var message = MessageForError(result, hr) ?? string.Format(CultureInfo.CurrentCulture, Strings.ErrorCode, result);
             return string.Format(CultureInfo.CurrentCulture, Strings.FailedToRetrieveMessage, hr, message);
+
+            //  ----------------------
+            //  MessageForError method
+            //  ----------------------
+
+            static string MessageForError(uint error, uint hr) => error switch
+            {
+                Constants.LOCALDB_ERROR_NOT_INSTALLED => Strings.NotInstalled,
+                Constants.LOCALDB_ERROR_INVALID_PARAMETER => Strings.InvalidParameter,
+                Constants.LOCALDB_ERROR_UNKNOWN_ERROR_CODE => string.Format(CultureInfo.CurrentCulture, Strings.UnknownErrorCode, hr),
+                Constants.LOCALDB_ERROR_UNKNOWN_LANGUAGE_ID => Strings.UnknownLanguageId,
+                Constants.LOCALDB_ERROR_INSUFFICIENT_BUFFER => Strings.InsufficientBuffer,
+                Constants.LOCALDB_ERROR_INTERNAL_ERROR => Strings.InternalError,
+                _ => string.Empty,
+            };
         }
 
         //  ----------------------
