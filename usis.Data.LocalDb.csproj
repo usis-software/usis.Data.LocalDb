@@ -7,7 +7,7 @@
     <LangVersion>latest</LangVersion>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>usis.Data.LocalDb.snk</AssemblyOriginatorKeyFile>
-    <Copyright>Copyright © 2018-2023 usis GmbH</Copyright>
+    <Copyright>Copyright © 2018-2024 usis GmbH</Copyright>
     <Product>usis .NET Class Libraries</Product>
     <Company>usis GmbH</Company>
     <Authors>Udo</Authors>
@@ -32,11 +32,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\dotNet\GitHub\usis.Net.Bits\trunk\LICENSE.md">
+    <None Include="LICENSE.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Include="..\..\..\..\dotNet\GitHub\usis.Net.Bits\trunk\README.md">
+    <None Include="README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
