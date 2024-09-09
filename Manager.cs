@@ -183,7 +183,7 @@ namespace usis.Data.LocalDb
                     Marshal.FreeHGlobal(pVersions);
                 }
             }
-            return Array.Empty<string>();
+            return [];
         }
 
         //  ---------------------
@@ -263,7 +263,7 @@ namespace usis.Data.LocalDb
                 while (stopWatch.Elapsed.TotalMilliseconds < timeout || double.IsInfinity(timeout));
                 throw new TimeoutException();
             }
-            return Array.Empty<string>();
+            return [];
         }
 
         //  ----------------------

@@ -32,14 +32,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\..\dotNet\GitHub\usis.Net.Bits\trunk\LICENSE.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\..\..\..\dotNet\GitHub\usis.Net.Bits\trunk\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="LICENSE.md" Pack="true" PackagePath="\" />
     <None Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
 
