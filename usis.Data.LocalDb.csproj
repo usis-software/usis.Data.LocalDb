@@ -7,11 +7,11 @@
     <LangVersion>latest</LangVersion>
     <SignAssembly>True</SignAssembly>
     <AssemblyOriginatorKeyFile>usis.Data.LocalDb.snk</AssemblyOriginatorKeyFile>
-    <Copyright>Copyright © 2018-2023 usis GmbH</Copyright>
+    <Copyright>Copyright © 2018-2024 usis GmbH</Copyright>
     <Product>usis .NET Class Libraries</Product>
     <Company>usis GmbH</Company>
     <Authors>Udo</Authors>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
     <Title>usis LocalDB Class Library</Title>
     <PackageProjectUrl>https://github.com/usis-software/usis.Data.LocalDb</PackageProjectUrl>
     <RepositoryUrl>https://github.com/usis-software/usis.Data.LocalDb</RepositoryUrl>
