@@ -175,7 +175,7 @@ namespace usis.Data.LocalDb
                 {
                     if (ValidateHResult(function(pVersions, ref count)))
                     {
-                        return pVersions.Enumerate(count, size, Marshal.PtrToStringAuto).ToArray();
+                        return [.. pVersions.Enumerate(count, size, Marshal.PtrToStringAuto)];
                     }
                 }
                 finally
@@ -252,7 +252,7 @@ namespace usis.Data.LocalDb
                     {
                         if (ValidateHResult(function(pInstances, ref count), Constants.LOCALDB_ERROR_INSUFFICIENT_BUFFER))
                         {
-                            return pInstances.Enumerate(count, size, Marshal.PtrToStringAuto).ToArray();
+                            return [.. pInstances.Enumerate(count, size, Marshal.PtrToStringAuto)];
                         }
                     }
                     finally

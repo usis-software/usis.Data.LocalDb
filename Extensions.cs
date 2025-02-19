@@ -236,7 +236,7 @@ namespace usis.Data.LocalDb
         //  ToString method
         //  ---------------
 
-        internal static string ToString(this byte[] bytes, Encoding encoding) => new(encoding.GetChars(bytes).TakeWhile(c => c != '\0').ToArray());
+        internal static string ToString(this byte[] bytes, Encoding encoding) => new([.. encoding.GetChars(bytes).TakeWhile(c => c != '\0')]);
 
         //  -----------------
         //  ToDateTime method
